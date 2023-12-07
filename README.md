@@ -1,4 +1,4 @@
-#Habit Traker App#  
+#Habit Traker App  
 This is a personal project to create a little habit tracker app to help myself learn how to use swift  
 <img alt="App Dashboard Desing" width="250" heigth="auto" src="HabitTraker-Dash.png">
 <img alt="App Day Desing" width="250" heigth="auto" src="HabitTraker-Day.png">  

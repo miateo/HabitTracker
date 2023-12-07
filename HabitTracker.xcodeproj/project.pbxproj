@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D8155DB62A20998D00BAFC4B /* HabitTrakerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8155DB52A20998D00BAFC4B /* HabitTrakerApp.swift */; };
+		D8155DB62A20998D00BAFC4B /* HabitTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8155DB52A20998D00BAFC4B /* HabitTrackerApp.swift */; };
 		D8155DB82A20998D00BAFC4B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8155DB72A20998D00BAFC4B /* DashboardView.swift */; };
 		D8155DBA2A20998E00BAFC4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8155DB92A20998E00BAFC4B /* Assets.xcassets */; };
 		D8155DBD2A20998E00BAFC4B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8155DBC2A20998E00BAFC4B /* Preview Assets.xcassets */; };
@@ -18,8 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D8155DB22A20998D00BAFC4B /* HabitTraker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitTraker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8155DB52A20998D00BAFC4B /* HabitTrakerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTrakerApp.swift; sourceTree = "<group>"; };
+		D8155DB22A20998D00BAFC4B /* HabitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8155DB52A20998D00BAFC4B /* HabitTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTrackerApp.swift; sourceTree = "<group>"; };
 		D8155DB72A20998D00BAFC4B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		D8155DB92A20998E00BAFC4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8155DBC2A20998E00BAFC4B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		D8155DA92A20998D00BAFC4B = {
 			isa = PBXGroup;
 			children = (
-				D8155DB42A20998D00BAFC4B /* HabitTraker */,
+				D8155DB42A20998D00BAFC4B /* HabitTracker */,
 				D8155DB32A20998D00BAFC4B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,16 +51,16 @@
 		D8155DB32A20998D00BAFC4B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D8155DB22A20998D00BAFC4B /* HabitTraker.app */,
+				D8155DB22A20998D00BAFC4B /* HabitTracker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D8155DB42A20998D00BAFC4B /* HabitTraker */ = {
+		D8155DB42A20998D00BAFC4B /* HabitTracker */ = {
 			isa = PBXGroup;
 			children = (
 				D8EE68502B21C40400C30A9E /* SettingView.swift */,
-				D8155DB52A20998D00BAFC4B /* HabitTrakerApp.swift */,
+				D8155DB52A20998D00BAFC4B /* HabitTrackerApp.swift */,
 				D8E3F9CC2A33307F0098E316 /* AllViewConn.swift */,
 				D8155DB72A20998D00BAFC4B /* DashboardView.swift */,
 				D8E3F9CA2A332E0D0098E316 /* TodayView.swift */,
@@ -68,7 +68,7 @@
 				D8155DB92A20998E00BAFC4B /* Assets.xcassets */,
 				D8155DBB2A20998E00BAFC4B /* Preview Content */,
 			);
-			path = HabitTraker;
+			path = HabitTracker;
 			sourceTree = "<group>";
 		};
 		D8155DBB2A20998E00BAFC4B /* Preview Content */ = {
@@ -82,9 +82,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D8155DB12A20998D00BAFC4B /* HabitTraker */ = {
+		D8155DB12A20998D00BAFC4B /* HabitTracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D8155DC02A20998E00BAFC4B /* Build configuration list for PBXNativeTarget "HabitTraker" */;
+			buildConfigurationList = D8155DC02A20998E00BAFC4B /* Build configuration list for PBXNativeTarget "HabitTracker" */;
 			buildPhases = (
 				D8155DAE2A20998D00BAFC4B /* Sources */,
 				D8155DAF2A20998D00BAFC4B /* Frameworks */,
@@ -94,9 +94,9 @@
 			);
 			dependencies = (
 			);
-			name = HabitTraker;
+			name = HabitTracker;
 			productName = HabitTraker;
-			productReference = D8155DB22A20998D00BAFC4B /* HabitTraker.app */;
+			productReference = D8155DB22A20998D00BAFC4B /* HabitTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -114,7 +114,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D8155DAD2A20998D00BAFC4B /* Build configuration list for PBXProject "HabitTraker" */;
+			buildConfigurationList = D8155DAD2A20998D00BAFC4B /* Build configuration list for PBXProject "HabitTracker" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -127,7 +127,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D8155DB12A20998D00BAFC4B /* HabitTraker */,
+				D8155DB12A20998D00BAFC4B /* HabitTracker */,
 			);
 		};
 /* End PBXProject section */
@@ -154,7 +154,7 @@
 				D8E3F9CB2A332E0E0098E316 /* TodayView.swift in Sources */,
 				D8EE68512B21C40400C30A9E /* SettingView.swift in Sources */,
 				D8E3F9CD2A33307F0098E316 /* AllViewConn.swift in Sources */,
-				D8155DB62A20998D00BAFC4B /* HabitTrakerApp.swift in Sources */,
+				D8155DB62A20998D00BAFC4B /* HabitTrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +344,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D8155DAD2A20998D00BAFC4B /* Build configuration list for PBXProject "HabitTraker" */ = {
+		D8155DAD2A20998D00BAFC4B /* Build configuration list for PBXProject "HabitTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8155DBE2A20998E00BAFC4B /* Debug */,
@@ -353,7 +353,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D8155DC02A20998E00BAFC4B /* Build configuration list for PBXNativeTarget "HabitTraker" */ = {
+		D8155DC02A20998E00BAFC4B /* Build configuration list for PBXNativeTarget "HabitTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8155DC12A20998E00BAFC4B /* Debug */,

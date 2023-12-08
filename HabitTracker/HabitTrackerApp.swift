@@ -15,3 +15,6 @@ struct HabitTrakerApp: App {
         }
     }
 }
+#Preview{
+    AllViewConn()
+}

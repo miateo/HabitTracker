@@ -90,12 +90,11 @@ struct DashboardView: View {
                         HStack{
                             VStack{// -- single day component
                                 Chart(habitdata){item in
-                                    BarMark(
-                                        x: .value("name", item.weekday),
-                                        y: .value("amount", item.amount)
-                                    )
-                                    .foregroundStyle(item.type.rawValue == "good" ? Color.green : Color.red)//change color of chart based on habit type
-                                    .cornerRadius(100.0)
+                                        BarMark(
+                                            x: .value("name", item.weekday),
+                                            y: .value("amount", item.amount)
+                                        )
+                                        .foregroundStyle(item.type.rawValue == "good" ? Color.green : Color.red)//change color of chart based on habit type
                                 }
                                 .frame(width: 350,height: 160)
                             }
@@ -116,28 +115,6 @@ struct DashboardView: View {
                     }
                     .italic()
                 }
-                /*Spacer()
-                ZStack{//MARK: -- tooldbar
-                    RoundedRectangle(cornerRadius: 18)
-                        .fill(Color("widgetSet"))
-                        .frame(width: 375, height: 70)
-                    HStack{
-                        Spacer()
-                        Image("DashboardIcon-Dark")
-                            .resizable()
-                            .frame(width: 45,height:45)
-                        Spacer()
-                        Image("DayIcon-Dark")// -- two text fields with a function that returns the day of the week and the date of the day
-                            .resizable()
-                            .frame(width: 45,height:45)
-                        Spacer()
-                        Image("SettingIcon-Dark")
-                            .resizable()
-                            .frame(width: 45,height:45)
-                        Spacer()
-                    }
-                }*/
-                    
             }
             .foregroundColor(Color("fontColor"))
             .padding(.top, 0)
@@ -215,8 +192,7 @@ struct ProgressBarCircle: View{//display the progress circle
 struct CalculateProgressCircle{
     //MARK: -- calculating full week/month progress
 }
-
-
+                                                    
 struct DashboardView_Previews: PreviewProvider{
     static var previews: some View{
         DashboardView()

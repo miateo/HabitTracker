@@ -20,7 +20,7 @@ struct DashboardView: View {
                 Spacer()
                 HStack{
                     Spacer()
-                    ZStack{//MARK: -- Compaund stat summary
+                    ZStack{//MARK: -- Compaund stat summary (circle)
                         RoundedRectangle(cornerRadius: 18)
                             .fill(Color("widgetSet"))
                             .frame(width: 175,height: 170)
@@ -81,7 +81,7 @@ struct DashboardView: View {
                     Spacer()
                 }
                 Spacer()
-                ZStack{//MARK: -- Week status
+                ZStack{//MARK: -- Week status chart
                     RoundedRectangle(cornerRadius: 18)
                         .fill(Color("widgetSet"))
                         .frame(width: 375, height: 230)
@@ -89,31 +89,41 @@ struct DashboardView: View {
                         Text("Week status").fontWeight(.bold)
                         HStack{
                             VStack{// -- single day component
-                                Chart(habitdata){item in
-                                        BarMark(
-                                            x: .value("name", item.weekday),
-                                            y: .value("amount", item.amount)
-                                        )
-                                        .foregroundStyle(item.type.rawValue == "good" ? Color.green : Color.red)//change color of chart based on habit type
+                                Chart{
+                                    ForEach(habitdata){item in
+                                            BarMark(
+                                                x: .value("name", item.weekday),
+                                                y: .value("amount", item.amount)
+                                            )
+                                            .foregroundStyle(item.type.rawValue == "good" ? Color.green : Color.red)//change color of chart based on habit type
+                                            
+                                    
+                                    
+                                    }
                                 }
                                 .frame(width: 350,height: 160)
+                                
                             }
                         }
                     }
                     
                 }
                 Spacer()
-                ZStack{//MARK: -- Tips
+                ZStack{//MARK: -- Quote
                     RoundedRectangle(cornerRadius: 18)
                         .fill(Color("widgetSet"))
                         .frame(width: 375, height: 180)
                     VStack{
-                        Text("Lorem ipsum dolor sit amet consectetur. Quam tristique quis erat et egestas purus proin a enim. Viverra tempor a ut netus sit.") // -- dynamic
-                            .frame(width:250, height:120)
+                        Text("Lorem ipsum dolor sit amet consectetur. Quam tristique quis erat et egestas purus proin a enim.") // -- dynamic
+                            .frame(width:300, height:80)
                             .multilineTextAlignment(.center)
                             .font(.system(size: 14))
                     }
                     .italic()
+                }
+                Spacer()
+                ZStack{//MARK: -- Month Graph
+                    
                 }
             }
             .foregroundColor(Color("fontColor"))
@@ -132,7 +142,6 @@ struct Habit: Identifiable{
     var type: Habitype
     
 }
-func colorChart(){}
 enum Habitype: String{
     case good, bad
 }
@@ -161,7 +170,7 @@ let habitdata: [Habit] = [
 ]
 
 
-struct ProgressBarCircle: View{//display the progress circle
+struct ProgressBarCircle: View{//MARK: Progress circle
     @Binding var progress: Float
     
     var body: some View{
@@ -189,10 +198,20 @@ struct ProgressBarCircle: View{//display the progress circle
     }
     
 }
-struct CalculateProgressCircle{
-    //MARK: -- calculating full week/month progress
+struct CalculateProgressCircle{//MARK: -- calculating full week/month progress
+    
 }
-                                                    
+func calculateHabitStreak(habitdata: [Habit]){//MARK: Calculating week difference
+        //controllo rispetto alla settimana precedente la differenza
+        //1 - Calcolo il valore di "bad" & "good" della scorsa settimana
+        //2 - Confronto quello rispetto alla settimana corrente(fino al giorno corrente)
+        //3 - Ritorno la percentuale
+    let bad_habit_old: Int, good_habit_old: Int;
+    let bad_habit_current: Int, good_habit_current: Int;
+    
+    
+    
+}
 struct DashboardView_Previews: PreviewProvider{
     static var previews: some View{
         DashboardView()

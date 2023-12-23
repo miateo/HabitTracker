@@ -13,10 +13,8 @@ struct TodayView: View {
             Color("BGColor")
                 .ignoresSafeArea()
             VStack{
-                Text("Today")
-                    .foregroundColor(.white)
+                
             }
-            
         }
     }
 }

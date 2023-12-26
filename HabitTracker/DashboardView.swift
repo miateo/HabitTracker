@@ -4,7 +4,12 @@
 //
 //  Created by Alessandro Miatello on 26/05/23.
 //
-
+/* This view is has as purpose to show the summary of the progress with charts for:
+    - Day
+    - Week
+    - Month
+    it doesn't record any data anb has functions only to calculate the charts
+*/
 import SwiftUI
 import Charts
 let calendar = Calendar.current;
@@ -135,12 +140,12 @@ struct DashboardView: View {
     }
 }
 struct Habit: Identifiable{
-    let id = UUID()
-    let weekday: String
-    let day: Date
-    let amount = 1
-    //var type: Habitype
-    let type: Habitype
+    //let name : String // habit name -> displayed into the app to log the habit  | Not viewable on the charts (exept habit-specific charts)
+    let id = UUID() // unique id
+    let weekday: String // automatically fetched by the day var
+    let day: Date // record the day that the habit get logged
+    let amount = 1 //TODO: figure out best way to register the "amount" for every habit
+    let type: Habitype // -> enum(good,bad)
     
 }
 func getWeekDay(_ data: Date)->String{

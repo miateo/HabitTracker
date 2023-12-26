@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Charts
-
+let calendar = Calendar.current;
 struct DashboardView: View {
     @State var progressValue: Float = 0.0
     let markColors: [Color] = [.green,.red]
@@ -95,7 +95,7 @@ struct DashboardView: View {
                                                 x: .value("name", item.weekday),
                                                 y: .value("amount", item.amount)
                                             )
-                                            .foregroundStyle(item.type.rawValue == "good" ? Color.green : Color.red)//change color of chart based on habit type
+                                            .foregroundStyle(item.type == .good ? Color.green : Color.red)//change color of chart based on habit type
                                             
                                     
                                     
@@ -137,36 +137,47 @@ struct DashboardView: View {
 struct Habit: Identifiable{
     let id = UUID()
     let weekday: String
-    let day: String
-    let amount: Int
-    var type: Habitype
+    let day: Date
+    let amount = 1
+    //var type: Habitype
+    let type: Habitype
     
+}
+func getWeekDay(_ data: Date)->String{
+    
+    let weekdays = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]
+        
+    // Assicurati che il valore sia compreso tra 1 e 7
+    let index = (calendar.component(.weekday, from: data) - 1) % 7
+    
+    return weekdays[index]
 }
 enum Habitype: String{
     case good, bad
 }
-let habitdata: [Habit] = [
+let habitdata: [Habit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
     //Day 1
-    Habit(weekday: "Thursday", day: "12-05-2023", amount: 2,type: Habitype.good),
-    Habit(weekday: "Thursday",day: "12-05-2023", amount: 1,type: Habitype.bad),
+    Habit(weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!,type: .good),
+    Habit(weekday: "Thursday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!,type: .bad),
+    Habit(weekday: "Thursday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!,type: .bad),
     //Day 2
-    Habit(weekday: "Friday",day: "13-05-2023", amount: 1,type: Habitype.bad),
-    Habit(weekday: "Friday",day: "13-05-2023", amount: 2,type: Habitype.good),
+    Habit(weekday: "Friday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!,type: .bad),
+    Habit(weekday: "Friday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!,type: .good),
     //Day 3
-    Habit(weekday: "Monday",day: "14-05-2023", amount: 2,type: Habitype.good),
-    Habit(weekday: "Monday",day: "14-05-2023", amount: 1,type: Habitype.bad),
+    Habit(weekday: "Monday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!,type: .good),
+    Habit(weekday: "Monday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!,type: .bad),
     //Day 4
-    Habit(weekday: "Wendays",day: "15-05-2023", amount: 1,type: Habitype.bad),
-    Habit(weekday: "Wendays",day: "15-05-2023", amount: 2,type: Habitype.good),
+    Habit(weekday: "Wendays",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!,type: .bad),
+    Habit(weekday: "Wendays",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!,type: .good),
     //Day 5
-    Habit(weekday: "Tuesday",day: "16-05-2023", amount: 1,type: Habitype.bad),
-    Habit(weekday: "Tuesday",day: "16-05-2023", amount: 2,type: Habitype.good),
+    Habit(weekday: "Tuesday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 16))!,type: .bad),
+    Habit(weekday: "Tuesday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 16))!,type: .good),
     //Day 6
-    Habit(weekday: "Sunday",day: "17-05-2023", amount: 1,type: Habitype.bad),
-    Habit(weekday: "Sunday",day: "17-05-2023", amount: 2,type: Habitype.good),
+    Habit(weekday: "Sunday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 17))!,type: .bad),
+    Habit(weekday: "Sunday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 17))!,type: .good),
     //Day 7
-    Habit(weekday: "Saturday",day: "18-05-2023", amount: 1,type: Habitype.bad),
-    Habit(weekday: "Saturday",day: "18-05-2023", amount: 2,type: Habitype.good)
+    Habit(weekday: "Saturday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!,type: .bad),
+    Habit(weekday: "Saturday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!,type: .good)
 ]
 
 
@@ -206,8 +217,8 @@ func calculateHabitStreak(habitdata: [Habit]){//MARK: Calculating week differenc
         //1 - Calcolo il valore di "bad" & "good" della scorsa settimana
         //2 - Confronto quello rispetto alla settimana corrente(fino al giorno corrente)
         //3 - Ritorno la percentuale
-    let bad_habit_old: Int, good_habit_old: Int;
-    let bad_habit_current: Int, good_habit_current: Int;
+    //let bad_habit_old: Int, good_habit_old: Int;
+    //let bad_habit_current: Int, good_habit_current: Int;
     
     
     

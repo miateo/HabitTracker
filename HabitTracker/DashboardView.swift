@@ -93,21 +93,17 @@ struct DashboardView: View {
                     VStack{
                         Text("Week status").fontWeight(.bold)
                         HStack{
-                            VStack{// -- single day component
+                            HStack{// -- single day component
+                                
                                 Chart{
                                     ForEach(habitdata){item in
                                             BarMark(
-                                                x: .value("name", item.weekday),
-                                                y: .value("amount", item.amount)
+                                                    x: .value("name", item.weekday),
+                                                    y: .value("amount", item.amount)
                                             )
                                             .foregroundStyle(item.type == .good ? Color.green : Color.red)//change color of chart based on habit type
-                                            
-                                    
-                                    
                                     }
-                                }
-                                .frame(width: 350,height: 160)
-                                
+                                }.frame(width: 350,height: 160)
                             }
                         }
                     }
@@ -163,8 +159,8 @@ enum Habitype: String{
 let habitdata: [Habit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
     //Day 1
     Habit(weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!,type: .good),
-    Habit(weekday: "Thursday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!,type: .bad),
-    Habit(weekday: "Thursday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!,type: .bad),
+    Habit(weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!,type: .bad),
+    Habit(weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!,type: .bad),
     //Day 2
     Habit(weekday: "Friday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!,type: .bad),
     Habit(weekday: "Friday",day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!,type: .good),

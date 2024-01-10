@@ -21,9 +21,7 @@ struct TodayView: View {
                 // Most used habits
                 HStack{
                     //button to create new habit
-                    Button{
-                        
-                    }
+                    
                     //button to view all habits
                 }
             }

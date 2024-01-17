@@ -79,6 +79,16 @@ func getDayProgress(){
     return
     
 }
+struct DisplayHabit: View{
+    var habit: Habit
+    var body: some View{
+        VStack{
+            Text("Day: habit.day")
+            Text("Weekday: habit.weekday")
+            Text("Type: habit.type")
+        }
+    }
+}
 func checkMostUsedLast(days :Int){
     /**
      days rappresenta il numero di giorni indietro nel quali cercare

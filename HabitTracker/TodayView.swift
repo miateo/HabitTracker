@@ -21,6 +21,7 @@ struct TodayView: View {
                 Text("Log your Habits!").font(.system(size:24))
                 // Most used habits
                 //displayMostUsed()
+                DisplayHabit(habit: habitdata[1])
                 HStack{
                     //button to create new habit
                     

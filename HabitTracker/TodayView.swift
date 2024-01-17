@@ -18,7 +18,9 @@ struct TodayView: View {
                 .ignoresSafeArea()
             VStack{
                 // WeekView
+                Text("Log your Habits!").font(.system(size:24))
                 // Most used habits
+                //displayMostUsed()
                 HStack{
                     //button to create new habit
                     

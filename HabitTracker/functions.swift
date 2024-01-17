@@ -30,7 +30,7 @@ func getWeekDay(_ data: Date)->String{
     let weekdays = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]
         
     // Assicurati che il valore sia compreso tra 1 e 7
-    let index = (calendar.component(.weekday, from: data) - 1) % 7
+    let index =  (calendar.component(.weekday, from: data) - 1) % 7
     
     return weekdays[index]
 }
@@ -69,5 +69,30 @@ struct ProgressBarCircle: View{//MARK: Progress circle
             return .red
         }
     }
+}
+func getDayProgress(){
+    /**
+     1 - Fetch current day data -> see what dalily habit are logged
+     2 - Calculate the amount --> habitDone/habitNotDone -> express it with a float value
+     3 - return the value
+     */
+    return
     
 }
+func checkMostUsedLast(days :Int){
+    /**
+     days rappresenta il numero di giorni indietro nel quali cercare
+     1- fech of lest {days} data
+     2 - bubblesort by log count of every habit
+     3 - Return an ordered array list of the habits in the last {days} days
+     */
+}
+func displayMostUsed(days :Int, amount :Int){
+    /**
+     days rappresenta il numero di giorni indietro nel quali cercare
+     1 - Utilizza checkMostUsedLast(int days) dove days rappresenta il numero di giorni indietro nel quali cercare
+     2 - crea una specie di lista che permette di espandere gli habits
+     3 - display the most used habits in the last {days} days
+     */
+}
+

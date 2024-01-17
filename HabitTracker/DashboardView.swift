@@ -33,8 +33,8 @@ struct DashboardView: View {
                         ProgressBarCircle(progress: self.$progressValue)
                             .frame(width: 120,height: 115)
                             .onAppear(){
-                                //TODO: replace with function that calculate current day progress
-                                self.progressValue = 0.9
+                                //TODO: replace with function getDayProgress that calculate current day progress
+                                self.progressValue = 0.9 //getDayProgress()
                             }
                     }
                     Spacer()
@@ -138,6 +138,7 @@ struct DashboardView: View {
 }
 
 let habitdata: [Habit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
+    //Description: this is a sample to fill the chart
     //Day 1
     Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),type: .good),
     Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),type: .bad),

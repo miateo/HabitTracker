@@ -137,31 +137,7 @@ struct DashboardView: View {
     }
 }
 
-let habitdata: [Habit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
-    //Description: this is a sample to fill the chart
-    //Day 1
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),type: .good),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),type: .bad),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),type: .bad),
-    //Day 2
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .bad),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .good),
-    //Day 3
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!, weekday: "Monday",type: .good),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!, weekday: "Monday",type: .bad),
-    //Day 4
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: "Wendays",type: .bad),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: "Wendays",type: .good),
-    //Day 5
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 16))!, weekday: "Tuesday",type: .bad),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 16))!, weekday: "Tuesday",type: .good),
-    //Day 6
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 17))!, weekday: "Sunday",type: .bad),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 17))!, weekday: "Sunday",type: .good),
-    //Day 7
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!, weekday: "Saturday",type: .bad),
-    Habit(day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!, weekday: "Saturday",type: .good)
-]
+
 struct CalculateProgressCircle{//MARK: -- calculating full week/month progress
     
 }

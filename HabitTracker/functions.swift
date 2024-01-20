@@ -10,12 +10,13 @@ import SwiftUI
 //MARK: Habit Structure
 struct Habit: Identifiable{
     //TODO: need to fix so that on log it save the fulla date Y-M-D and auto-assing the weekday
-    //let name : String // habit name -> displayed into the app to log the habit  | Not viewable on the charts (exept habit-specific charts)
+    let name : String // habit name -> displayed into the app to log the habit  | Not viewable on the charts (exept habit-specific charts)
     let id = UUID() // unique id to identify the log
     //let year: Int  // year when habit is logged
     //let month: Int // month when habit is logged
     let day: Date   // day habit is logged
     let weekday: String // automatically fetched by the day var
+    let image: Image
     //let weekday = getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: year, month: month, day: day))!) TODO: make this shit work
     let amount = 1 //TODO: figure out best way to register the "amount" for every habit
     let type: Habitype // -> enum(good,bad)
@@ -81,12 +82,30 @@ func getDayProgress(){
 }
 struct DisplayHabit: View{
     var habit: Habit
+    @State private var isChecked = false
     var body: some View{
-        VStack{
-            Text("Day: habit.day")
-            Text("Weekday: habit.weekday")
-            Text("Type: habit.type")
-        }
+        HStack{
+            Text(habit.name)
+                .foregroundStyle(Color("fontColor"))
+                .fontWeight(.heavy)
+                .font(.system(size: 24))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 18)
+            habit.image
+                .foregroundStyle(habit.type == .good ? Color.green : Color.red)
+                .padding(.trailing, 8)
+                .font(.system(size: 36))
+            Image(systemName: isChecked ? "checkmark.circle.fill" : "checkmark.circle")
+                .padding([.leading, .trailing], 8)
+                .font(.system(size: 36))
+                .onTapGesture {
+                    isChecked.toggle()
+                }
+            
+        }.frame(width: UIScreen.main.bounds.width * 0.95, height: 60)
+            .background(Color("widgetSet"))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            
     }
 }
 func checkMostUsedLast(days :Int){
@@ -106,3 +125,28 @@ func displayMostUsed(days :Int, amount :Int){
      */
 }
 
+let habitdata: [Habit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
+    //Description: this is a sample to fill the chart
+    //Day 1
+    Habit(name: "Morning Run", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),image: Image(systemName: "figure.run"),type: .good),
+    Habit(name: "No Junk Food", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),image: Image(systemName: "takeoutbag.and.cup.and.straw.fill"),type: .bad),
+    Habit(name: "3h+ phone", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),image: Image(systemName: "iphone"),type: .bad),
+    //Day 2
+    /*Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .bad),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .good),
+    //Day 3
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!, weekday: "Monday",type: .good),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!, weekday: "Monday",type: .bad),
+    //Day 4
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: "Wendays",type: .bad),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: "Wendays",type: .good),
+    //Day 5
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 16))!, weekday: "Tuesday",type: .bad),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 16))!, weekday: "Tuesday",type: .good),
+    //Day 6
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 17))!, weekday: "Sunday",type: .bad),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 17))!, weekday: "Sunday",type: .good),
+    //Day 7
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!, weekday: "Saturday",type: .bad),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!, weekday: "Saturday",type: .good)
+*/]

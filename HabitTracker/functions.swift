@@ -108,6 +108,19 @@ struct DisplayHabit: View{
             
     }
 }
+struct NewHabit: View{
+    var body: some View{
+        VStack{
+            Text("Insert habit name")
+            Text("Insert habit type")
+            Text("Select habit Icon")
+        }.frame(width: UIScreen.main.bounds.width * 0.95, height: 200)
+            .background(Color("widgetSet"))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
+
+
 func checkMostUsedLast(days :Int){
     /**
      days rappresenta il numero di giorni indietro nel quali cercare

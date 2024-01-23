@@ -12,6 +12,7 @@
 import SwiftUI
 
 struct TodayView: View {
+    @State private var isShowingNewHabitForm = false
     var body: some View {
         ZStack{
             Color("BGColor")
@@ -29,10 +30,36 @@ struct TodayView: View {
                 DisplayHabit(habit: habitdata[2])
                 HStack{
                     //button to create new habit
+                    Button("Create new habit"){
+                        isShowingNewHabitForm.toggle()
+                    }
+                    .frame(width: UIScreen.main.bounds.width * 0.465, height: 60)
+                        .background(Color("widgetSet"))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundStyle(Color("fontColor"))
+                        .font(.system(size: 18))
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .sheet(isPresented: $isShowingNewHabitForm, content: {
+                            NewHabit()
+                                .presentationDetents([.fraction(0.35)])
+                                .presentationDragIndicator(.visible)
+                                .background(Color("widgetSet"))
+                        })
+                    Button("See all habits") {
+                        
+                    }
+                    .frame(width: UIScreen.main.bounds.width * 0.465, height: 60)
+                        .background(Color("widgetSet"))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .foregroundStyle(Color("fontColor"))
+                        .font(.system(size: 18))
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+
                     
                     //button to view all habits
                 }
             }
+            
         }
     }
 }

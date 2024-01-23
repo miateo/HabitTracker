@@ -23,6 +23,21 @@ struct Habit: Identifiable{
     enum Habitype: String{
         case good, bad
     }
+    init(name: String,day: Date, weekday: String, image: Image, type: Habitype) {
+        self.name = name
+        self.image = image
+        self.type = type
+        self.day = day
+        self.weekday = weekday
+    }
+    
+    init(name: String, image: Image, type: Habitype) {
+        self.name = name
+        self.image = image
+        self.type = type
+        self.day = Date()
+        self.weekday = ""
+    }
 }
 
 //MARK: Get day data
@@ -108,15 +123,42 @@ struct DisplayHabit: View{
             
     }
 }
+
 struct NewHabit: View{
+    
+    @State var name = ""
+    @State var image = Image(systemName: "")
+    @State var type = 0
     var body: some View{
         VStack{
-            Text("Insert habit name")
-            Text("Insert habit type")
+            TextField("Insert the name of the habit", text: $name)
+                .textFieldStyle(.roundedBorder)
+                .background(.gray)
+                .frame(width: UIScreen.main.bounds.width * 0.75)
+            HStack{
+                Button{
+                    type = 1
+                }label: {
+                    Text("good")
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .background(.green)
+                    .font(.system(size: 18))
+                    .fontWeight(.bold)
+                Button("Bad"){
+                    type = 0
+                }
+                .textFieldStyle(.roundedBorder)
+                .background(.red)
+                .padding(20)
+                .frame(width: UIScreen.main.bounds.width * 0.45)
+            }.frame(width: UIScreen.main.bounds.width * 0.65)
             Text("Select habit Icon")
-        }.frame(width: UIScreen.main.bounds.width * 0.95, height: 200)
-            .background(Color("widgetSet"))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+    }
+    func createNewHabit(){
+        let habit = Habit(name: name, image: image, type: type == 1 ? Habit.Habitype.good : Habit.Habitype.bad)
     }
 }
 

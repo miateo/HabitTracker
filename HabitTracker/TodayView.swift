@@ -41,10 +41,12 @@ struct TodayView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .sheet(isPresented: $isShowingNewHabitForm, content: {
                             NewHabit()
-                                .presentationDetents([.fraction(0.35)])
+                                .presentationBackground(Color("widgetSet"))
+                                .presentationDetents([.fraction(0.40)])
                                 .presentationDragIndicator(.visible)
-                                .background(Color("widgetSet"))
+                                
                         })
+                        
                     Button("See all habits") {
                         
                     }

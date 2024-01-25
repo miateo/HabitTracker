@@ -132,16 +132,17 @@ struct NewHabit: View{
     var body: some View{
         VStack{
             TextField("Insert the name of the habit", text: $name)
-                .textFieldStyle(.roundedBorder)
-                .background(.gray)
-                .frame(width: UIScreen.main.bounds.width * 0.75)
+                
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .padding()
+                .background(.green)
             HStack{
                 Button{
                     type = 1
                 }label: {
                     Text("good")
                 }
-                .frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
+                //.frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .background(.green)
                     .font(.system(size: 18))
@@ -152,13 +153,17 @@ struct NewHabit: View{
                 .textFieldStyle(.roundedBorder)
                 .background(.red)
                 .padding(20)
-                .frame(width: UIScreen.main.bounds.width * 0.45)
-            }.frame(width: UIScreen.main.bounds.width * 0.65)
+                //.frame(width: UIScreen.main.bounds.width * 0.45)
+            }
+            .frame(width: .infinity * 0.65)
+                .background(.blue)
+            
             Text("Select habit Icon")
-        }
+            
+        }.frame(width: UIScreen.main.bounds.width * 0.75).background(.red)
     }
     func createNewHabit(){
-        let habit = Habit(name: name, image: image, type: type == 1 ? Habit.Habitype.good : Habit.Habitype.bad)
+        //let habit = Habit(name: name, image: image, type: type == 1 ? Habit.Habitype.good : Habit.Habitype.bad)
     }
 }
 

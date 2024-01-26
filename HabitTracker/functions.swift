@@ -7,6 +7,7 @@
 //Description: This file contain all the differents functions
 import Foundation
 import SwiftUI
+import SFSymbolsPicker
 //MARK: Habit Structure
 struct Habit: Identifiable{
     //TODO: need to fix so that on log it save the fulla date Y-M-D and auto-assing the weekday
@@ -125,48 +126,47 @@ struct DisplayHabit: View{
 }
 
 struct NewHabit: View{
-    
     @State var name = ""
-    @State var image = Image(systemName: "")
-    @State var type = 0
+    @State var icon = "circle.fill"
+    @State var isPresented = false
+    @State var type = 1
     var body: some View{
         VStack{
-            TextField("Insert the name of the habit", text: $name)
-                
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+            TextField("Insert the name of the habit", text: $name).tint(.white)
                 .padding()
-                .background(.green)
+                .background(Color("secondaryWidget"))
+                .clipShape(RoundedRectangle(cornerRadius: 15))
             HStack{
-                Button{
-                    type = 1
-                }label: {
-                    Text("good")
-                }
-                //.frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .background(.green)
-                    .font(.system(size: 18))
-                    .fontWeight(.bold)
-                Button("Bad"){
-                    type = 0
-                }
-                .textFieldStyle(.roundedBorder)
-                .background(.red)
-                .padding(20)
-                //.frame(width: UIScreen.main.bounds.width * 0.45)
+                Picker("", selection: $type){
+                    Text("Good")
+                        .tag(1)
+                    Text("Bad")
+                        .tag(0)
+                }.frame(width: UIScreen.main.bounds.width * 0.75)
+                    .pickerStyle(.palette).foregroundStyle(Color.gray)
             }
-            .frame(width: .infinity * 0.65)
-                .background(.blue)
-            
-            Text("Select habit Icon")
-            
-        }.frame(width: UIScreen.main.bounds.width * 0.75).background(.red)
-    }
-    func createNewHabit(){
-        //let habit = Habit(name: name, image: image, type: type == 1 ? Habit.Habitype.good : Habit.Habitype.bad)
+            HStack(alignment: .top){
+                Button("Select a icon"){
+                    isPresented.toggle()
+                }.foregroundColor(.black)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(Color("secondaryWidget"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                Spacer()
+                //Text("Your habit Icon:").foregroundStyle(Color.white)
+                Image(systemName: icon)
+                    .sheet(isPresented: $isPresented, content: {
+                        SymbolsPicker(selection: $icon, title: "Choose a icon", autoDismiss: true)
+                    })
+                    .font(.system(size: 25))
+                    .foregroundStyle(Color.white)
+                    .padding(.vertical, 8)
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.75)
+        }
     }
 }
-
 
 func checkMostUsedLast(days :Int){
     /**

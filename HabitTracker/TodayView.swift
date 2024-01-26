@@ -40,12 +40,21 @@ struct TodayView: View {
                         .font(.system(size: 18))
                         .fontWeight(.bold)
                         .sheet(isPresented: $isShowingNewHabitForm, content: {
-                            NewHabit()
-                                .presentationBackground(Color("widgetSet"))
-                                .presentationDetents([.fraction(0.40)])
-                                .presentationDragIndicator(.visible)
-                                
+                            NavigationStack{
+                                NewHabit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.75)
+                            }.toolbar{
+                                ToolbarItem(placement: .confirmationAction){
+                                    Button("Done"){
+                                        
+                                    }
+                                }
+                            }
+                            .presentationBackground(Color("widgetSet"))
+                            .presentationDragIndicator(.visible)
+                            .presentationDetents([.fraction(0.40)])
                         })
+                        
                         
                     Button("See all habits") {
                         

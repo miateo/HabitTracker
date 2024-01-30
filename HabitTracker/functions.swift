@@ -126,16 +126,17 @@ struct DisplayHabit: View{
 }
 
 struct NewHabit: View{
+    @Binding var isShowingNewHabitForm: Bool
     @State var name = ""
     @State var icon = "circle.fill"
     @State var isPresented = false
     @State var type = 1
     var body: some View{
-        VStack{
-            TextField("Insert the name of the habit", text: $name).tint(.white)
+        VStack(alignment: .leading, spacing: 10.0){
+            TextField("Insert the name of the habit", text: $name)
                 .padding()
-                .background(Color("secondaryWidget"))
-                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .background(Color("secondaryWidget").cornerRadius(15))
+                
             HStack{
                 Picker("", selection: $type){
                     Text("Good")
@@ -158,6 +159,7 @@ struct NewHabit: View{
                 Image(systemName: icon)
                     .sheet(isPresented: $isPresented, content: {
                         SymbolsPicker(selection: $icon, title: "Choose a icon", autoDismiss: true)
+                            
                     })
                     .font(.system(size: 25))
                     .foregroundStyle(Color.white)
@@ -165,9 +167,24 @@ struct NewHabit: View{
             }
             .frame(width: UIScreen.main.bounds.width * 0.75)
         }
+        .toolbar{
+            ToolbarItem(placement: .confirmationAction){
+                Button("Done"){
+                    self.isShowingNewHabitForm.toggle()
+                }
+            }
+            ToolbarItem(placement: .cancellationAction){
+                Button("Cancel"){
+                    self.isShowingNewHabitForm.toggle()
+                }
+            }
+            
+        }
     }
 }
-
+func createNewHabit(name: String, image: Image, type: String){
+    
+}
 func checkMostUsedLast(days :Int){
     /**
      days rappresenta il numero di giorni indietro nel quali cercare

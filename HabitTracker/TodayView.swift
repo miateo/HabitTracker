@@ -14,7 +14,7 @@ import SwiftUI
 struct TodayView: View {
     @State private var isShowingNewHabitForm = false
     var body: some View {
-        ZStack{
+        ZStack(alignment: .leading){
             Color("BGColor")
                 .ignoresSafeArea()
             VStack{
@@ -28,10 +28,12 @@ struct TodayView: View {
                 DisplayHabit(habit: habitdata[0])
                 DisplayHabit(habit: habitdata[1])
                 DisplayHabit(habit: habitdata[2])
+                
                 HStack{
                     //button to create new habit
                     Button("Create new habit"){
                         isShowingNewHabitForm.toggle()
+                        
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.465, height: 60)
                         .background(Color("widgetSet"))
@@ -41,21 +43,16 @@ struct TodayView: View {
                         .fontWeight(.bold)
                         .sheet(isPresented: $isShowingNewHabitForm, content: {
                             NavigationStack{
-                                NewHabit()
+                                NewHabit(isShowingNewHabitForm: $isShowingNewHabitForm)
                                     .frame(width: UIScreen.main.bounds.width * 0.75)
-                            }.toolbar{
-                                ToolbarItem(placement: .confirmationAction){
-                                    Button("Done"){
-                                        
-                                    }
-                                }
                             }
                             .presentationBackground(Color("widgetSet"))
                             .presentationDragIndicator(.visible)
                             .presentationDetents([.fraction(0.40)])
+                            .navigationTitle("")
+                            .navigationBarHidden(true)
                         })
-                        
-                        
+                    
                     Button("See all habits") {
                         
                     }
@@ -71,7 +68,7 @@ struct TodayView: View {
                 }
             }
             
-        }
+        }.background(Color("BGColor"))
     }
 }
 struct TodayView_Previews: PreviewProvider{

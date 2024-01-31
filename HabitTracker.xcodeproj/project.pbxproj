@@ -15,6 +15,7 @@
 		D82E86112B63DA68006F914B /* SwiftUIFontIcon in Frameworks */ = {isa = PBXBuildFile; productRef = D82E86102B63DA68006F914B /* SwiftUIFontIcon */; };
 		D82E86142B63DC1C006F914B /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = D82E86132B63DC1C006F914B /* SFSymbolsPicker */; };
 		D84B25362B6959A60001BFFC /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84B25352B6959A60001BFFC /* Habit.swift */; };
+		D87DB2FC2B6AD4B7001D8ED2 /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = D87DB2FB2B6AD4B7001D8ED2 /* SymbolPicker */; };
 		D8CD544F2B6AA71900181D83 /* LoggedHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CD544E2B6AA71900181D83 /* LoggedHabit.swift */; };
 		D8E3F9CB2A332E0E0098E316 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E3F9CA2A332E0D0098E316 /* TodayView.swift */; };
 		D8E3F9CD2A33307F0098E316 /* AllViewConn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E3F9CC2A33307F0098E316 /* AllViewConn.swift */; };
@@ -44,6 +45,7 @@
 			files = (
 				D82E86112B63DA68006F914B /* SwiftUIFontIcon in Frameworks */,
 				D82E86142B63DC1C006F914B /* SFSymbolsPicker in Frameworks */,
+				D87DB2FC2B6AD4B7001D8ED2 /* SymbolPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +113,7 @@
 			packageProductDependencies = (
 				D82E86102B63DA68006F914B /* SwiftUIFontIcon */,
 				D82E86132B63DC1C006F914B /* SFSymbolsPicker */,
+				D87DB2FB2B6AD4B7001D8ED2 /* SymbolPicker */,
 			);
 			productName = HabitTraker;
 			productReference = D8155DB22A20998D00BAFC4B /* HabitTracker.app */;
@@ -143,6 +146,7 @@
 			packageReferences = (
 				D82E860F2B63DA68006F914B /* XCRemoteSwiftPackageReference "SwiftUIFontIcon" */,
 				D82E86122B63DC1C006F914B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */,
+				D87DB2FA2B6AD4B7001D8ED2 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
 			);
 			productRefGroup = D8155DB32A20998D00BAFC4B /* Products */;
 			projectDirPath = "";
@@ -407,6 +411,14 @@
 				minimumVersion = 1.0.4;
 			};
 		};
+		D87DB2FA2B6AD4B7001D8ED2 /* XCRemoteSwiftPackageReference "SymbolPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xnth97/SymbolPicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -419,6 +431,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D82E86122B63DC1C006F914B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */;
 			productName = SFSymbolsPicker;
+		};
+		D87DB2FB2B6AD4B7001D8ED2 /* SymbolPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D87DB2FA2B6AD4B7001D8ED2 /* XCRemoteSwiftPackageReference "SymbolPicker" */;
+			productName = SymbolPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

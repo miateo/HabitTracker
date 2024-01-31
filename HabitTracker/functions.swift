@@ -7,8 +7,8 @@
 //Description: This file contain all the differents functions
 import Foundation
 import SwiftUI
-import SFSymbolsPicker
 import SwiftData
+import SymbolPicker
 
 //MARK: Get day data
 func getWeekDay(_ data: Date)->String{
@@ -161,12 +161,11 @@ struct ModifyHabit: View{
                     .background(Color("secondaryWidget"))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 Spacer()
-                //Text("Your habit Icon:").foregroundStyle(Color.white)
+                
                 Image(systemName: icon)
-                    .sheet(isPresented: $isPresented, content: {
-                        SymbolsPicker(selection: $icon, title: "Choose a icon", autoDismiss: true)
-                            .background(Color("widgetSet"))
-                    })
+                    .sheet(isPresented: $isPresented) {
+                                SymbolPicker(symbol: $icon)
+                            }
                     .font(.system(size: 25))
                     .foregroundStyle(Color.white)
                     .padding(.vertical, 8)

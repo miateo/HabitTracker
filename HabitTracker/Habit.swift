@@ -9,7 +9,9 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-
+enum Habitype: String, Codable{
+    case good, bad
+}
 //MARK: Habit Structure
 @Model
 class Habit: Identifiable{
@@ -21,29 +23,12 @@ class Habit: Identifiable{
     var amount = 1 //TODO: figure out best way to register the "amount" for every habit
     var type: Habitype // -> enum(good,bad)
     
+    
     init(name: String, image: String, type: Habitype) {
         self.id = UUID().uuidString
         self.name = name
         self.image = image
         self.type = type
+        //print(self.id, self.name, self.image, self.type)
     }
 }
-
-@Model
-class LoggedHabit: Identifiable{
-    let habitType: Habit
-    var dateLogged: Date   // day habit is logged
-    var weekday: String // automatically fetched by the day var
-    
-    init(habitType: Habit, dateLogged: Date, weekday: String) {
-        self.habitType = habitType
-        self.dateLogged = dateLogged
-        self.weekday = weekday
-    }
-}
-
-enum Habitype: String, Codable{
-    case good, bad
-}
-
-

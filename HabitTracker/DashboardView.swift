@@ -18,6 +18,8 @@ import SwiftData
 let calendar = Calendar.current;
 struct DashboardView: View {
     @State var progressValue: Float = 0.0
+    @Query private var logHabits: [LoggedHabit]
+    
     let markColors: [Color] = [.green,.red]
     var body: some View {
         ZStack {
@@ -96,15 +98,16 @@ struct DashboardView: View {
                         .frame(width: 375, height: 230)
                     VStack{
                         Text("Week status").fontWeight(.bold)
-                        HStack{
+                        
+                         HStack{
                             HStack{// -- single day component
                                 Chart{
-                                    ForEach(habitData){item in
+                                    ForEach(logHabits){item in
                                             BarMark(
                                                 x: .value("name", item.weekday),
-                                                y: .value("amount", item.habitType.amount)
+                                                y: .value("amount", item.amount)
                                             )
-                                            .foregroundStyle(item.habitType.type == .good ? Color.green : Color.red)//change color of chart based on habit type
+                                            .foregroundStyle(item.type == .good ? Color.green : Color.red)//change color of chart based on habit type
                                     }
                                 }.frame(width: 350,height: 160)
                             }

@@ -65,36 +65,73 @@ func getDayProgress(){
     return
     
 }
-struct DisplayHabit: View{
-    var habit: LoggedHabit
+
+struct DisplayAllHabits: View{
+    var habit: Habit
+    @Environment(\.modelContext) private var context
     @State private var isChecked = false
     var body: some View{
         HStack{
-            Text(habit.habitType.name)
-                .foregroundStyle(Color("fontColor"))
-                .fontWeight(.heavy)
-                .font(.system(size: 24))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 18)
-            Image(systemName: habit.habitType.image)
-                .foregroundStyle(habit.habitType.type == .good ? Color.green : Color.red)
-                .padding(.trailing, 8)
-                .font(.system(size: 36))
+            Text(habit.name)
+                    .foregroundStyle(Color("fontColor"))
+                    .fontWeight(.heavy)
+                    .font(.system(size: 24))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 18)
+            Image(systemName: habit.image)
+                .foregroundStyle(habit.type == Habitype.good ? Color.green : Color.red)
+                    .padding(.trailing, 8)
+                    .font(.system(size: 36))
+            
             Image(systemName: isChecked ? "checkmark.circle.fill" : "checkmark.circle")
                 .padding([.leading, .trailing], 8)
                 .font(.system(size: 36))
                 .onTapGesture {
                     isChecked.toggle()
+                    //print("clicked")
+                    logHabit(name: habit.name, image: habit.image, type: habit.type)
                 }
+        }
+    }
+    func logHabit(name: String, image: String, type: Habitype){
+        let habitType = Habit(name: name, image: image, type: type)
+        let loggedHabit = LoggedHabit(habitType: habitType, dateLogged: Date(), weekday: getWeekDay(Date()))
+        context.insert(loggedHabit)
+    }
+}
+struct DisplayHabits: View{
+    var habit: Habit
+    @Environment(\.modelContext) private var context
+    @State private var isChecked = false
+    var body: some View{
+        HStack{
+            Text(habit.name)
+                    .foregroundStyle(Color("fontColor"))
+                    .fontWeight(.heavy)
+                    .font(.system(size: 24))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 18)
+            Image(systemName: habit.image)
+                .foregroundStyle(habit.type == Habitype.good ? Color.green : Color.red)
+                    .padding(.trailing, 8)
+                    .font(.system(size: 36))
             
-        }.frame(width: UIScreen.main.bounds.width * 0.95, height: 60)
-            .background(Color("widgetSet"))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            Image(systemName: isChecked ? "checkmark.circle.fill" : "checkmark.circle")
+                .padding([.leading, .trailing], 8)
+                .font(.system(size: 36))
+                .onTapGesture {
+                    isChecked.toggle()
+                    print("clicked")
+                    //logHabit
+                }
+        }
     }
 }
 
 struct ModifyHabit: View{
+    
     @Environment(\.modelContext) private var context
+    
     @Binding var isShowingNewHabitForm: Bool
     @State var name = ""
     @State var icon = "circle.fill"
@@ -136,12 +173,14 @@ struct ModifyHabit: View{
             }
             .frame(width: UIScreen.main.bounds.width * 0.75)
         }
-        .navigationTitle("Create New Habit")
         .toolbar{
             ToolbarItem(placement: .confirmationAction){
                 Button("Done"){
-                    self.isShowingNewHabitForm.toggle()
-                    //SaveHabit(name: name, image: icon, type: type == 1 ? "Good" : "Bad")
+                    if(name != ""){
+                        self.isShowingNewHabitForm.toggle()
+                        print("Done Clicked")
+                        saveHabit(name: name, image: icon, type: type == 1 ? Habitype.good : Habitype.bad)
+                    }
                 }
             }
             ToolbarItem(placement: .cancellationAction){
@@ -149,8 +188,11 @@ struct ModifyHabit: View{
                     self.isShowingNewHabitForm.toggle()
                 }
             }
-            
         }
+    }
+    func saveHabit(name: String, image: String, type: Habitype){
+        let habit = Habit(name: name, image: image, type: type)
+        context.insert(habit)
     }
 }
 
@@ -173,12 +215,15 @@ func displayMostUsed(days :Int, amount :Int){
 
 let habitData: [LoggedHabit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
     //Description: this is a sample to fill the chart
+
+    
     //Day 1
-    LoggedHabit(habitType: Habit(name: "Morning Run",image: "figure.run",type: Habitype.good), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
-    LoggedHabit(habitType: Habit(name: "No Junk Food",image: "takeoutbag.and.cup.and.straw.fill",type: Habitype.bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
-    LoggedHabit(habitType: Habit(name: "3h+ phone",image: "iphone",type: Habitype.bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
+    LoggedHabit(habitType: Habit(name: "Morning Run",image: "figure.run",type: .good), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
+    LoggedHabit(habitType: Habit(name: "No Junk Food",image: "takeoutbag.and.cup.and.straw.fill",type: .bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
+    LoggedHabit(habitType: Habit(name: "3h+ phone",image: "iphone",type: .bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
+    /*
     //Day 2
-    /*Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .bad),
+    Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .bad),
     Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .good),
     //Day 3
     Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 14))!, weekday: "Monday",type: .good),
@@ -195,4 +240,4 @@ let habitData: [LoggedHabit] = [ //TODO: need to fix the way the weekday get ext
     //Day 7
     Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!, weekday: "Saturday",type: .bad),
     Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 18))!, weekday: "Saturday",type: .good)
-*/]
+ */]

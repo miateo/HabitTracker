@@ -8,38 +8,7 @@
 import Foundation
 import SwiftUI
 import SFSymbolsPicker
-//MARK: Habit Structure
-struct Habit: Identifiable{
-    //TODO: need to fix so that on log it save the fulla date Y-M-D and auto-assing the weekday
-    let name : String // habit name -> displayed into the app to log the habit  | Not viewable on the charts (exept habit-specific charts)
-    let id = UUID() // unique id to identify the log
-    //let year: Int  // year when habit is logged
-    //let month: Int // month when habit is logged
-    let day: Date   // day habit is logged
-    let weekday: String // automatically fetched by the day var
-    let image: Image
-    //let weekday = getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: year, month: month, day: day))!) TODO: make this shit work
-    let amount = 1 //TODO: figure out best way to register the "amount" for every habit
-    let type: Habitype // -> enum(good,bad)
-    enum Habitype: String{
-        case good, bad
-    }
-    init(name: String,day: Date, weekday: String, image: Image, type: Habitype) {
-        self.name = name
-        self.image = image
-        self.type = type
-        self.day = day
-        self.weekday = weekday
-    }
-    
-    init(name: String, image: Image, type: Habitype) {
-        self.name = name
-        self.image = image
-        self.type = type
-        self.day = Date()
-        self.weekday = ""
-    }
-}
+import SwiftData
 
 //MARK: Get day data
 func getWeekDay(_ data: Date)->String{
@@ -97,18 +66,18 @@ func getDayProgress(){
     
 }
 struct DisplayHabit: View{
-    var habit: Habit
+    var habit: LoggedHabit
     @State private var isChecked = false
     var body: some View{
         HStack{
-            Text(habit.name)
+            Text(habit.habitType.name)
                 .foregroundStyle(Color("fontColor"))
                 .fontWeight(.heavy)
                 .font(.system(size: 24))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 18)
-            habit.image
-                .foregroundStyle(habit.type == .good ? Color.green : Color.red)
+            Image(systemName: habit.habitType.image)
+                .foregroundStyle(habit.habitType.type == .good ? Color.green : Color.red)
                 .padding(.trailing, 8)
                 .font(.system(size: 36))
             Image(systemName: isChecked ? "checkmark.circle.fill" : "checkmark.circle")
@@ -121,11 +90,11 @@ struct DisplayHabit: View{
         }.frame(width: UIScreen.main.bounds.width * 0.95, height: 60)
             .background(Color("widgetSet"))
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            
     }
 }
 
-struct NewHabit: View{
+struct ModifyHabit: View{
+    @Environment(\.modelContext) private var context
     @Binding var isShowingNewHabitForm: Bool
     @State var name = ""
     @State var icon = "circle.fill"
@@ -159,7 +128,7 @@ struct NewHabit: View{
                 Image(systemName: icon)
                     .sheet(isPresented: $isPresented, content: {
                         SymbolsPicker(selection: $icon, title: "Choose a icon", autoDismiss: true)
-                            
+                            .background(Color("widgetSet"))
                     })
                     .font(.system(size: 25))
                     .foregroundStyle(Color.white)
@@ -167,10 +136,12 @@ struct NewHabit: View{
             }
             .frame(width: UIScreen.main.bounds.width * 0.75)
         }
+        .navigationTitle("Create New Habit")
         .toolbar{
             ToolbarItem(placement: .confirmationAction){
                 Button("Done"){
                     self.isShowingNewHabitForm.toggle()
+                    //SaveHabit(name: name, image: icon, type: type == 1 ? "Good" : "Bad")
                 }
             }
             ToolbarItem(placement: .cancellationAction){
@@ -182,9 +153,7 @@ struct NewHabit: View{
         }
     }
 }
-func createNewHabit(name: String, image: Image, type: String){
-    
-}
+
 func checkMostUsedLast(days :Int){
     /**
      days rappresenta il numero di giorni indietro nel quali cercare
@@ -202,12 +171,12 @@ func displayMostUsed(days :Int, amount :Int){
      */
 }
 
-let habitdata: [Habit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
+let habitData: [LoggedHabit] = [ //TODO: need to fix the way the weekday get extracted & how the day date get recorded->(this happen when you log the habit not here)
     //Description: this is a sample to fill the chart
     //Day 1
-    Habit(name: "Morning Run", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),image: Image(systemName: "figure.run"),type: .good),
-    Habit(name: "No Junk Food", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),image: Image(systemName: "takeoutbag.and.cup.and.straw.fill"),type: .bad),
-    Habit(name: "3h+ phone", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),image: Image(systemName: "iphone"),type: .bad),
+    LoggedHabit(habitType: Habit(name: "Morning Run",image: "figure.run",type: Habitype.good), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
+    LoggedHabit(habitType: Habit(name: "No Junk Food",image: "takeoutbag.and.cup.and.straw.fill",type: Habitype.bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
+    LoggedHabit(habitType: Habit(name: "3h+ phone",image: "iphone",type: Habitype.bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!, weekday: getWeekDay(calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!)),
     //Day 2
     /*Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .bad),
     Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .good),

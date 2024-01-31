@@ -12,6 +12,9 @@
 */
 import SwiftUI
 import Charts
+import SwiftData
+
+
 let calendar = Calendar.current;
 struct DashboardView: View {
     @State var progressValue: Float = 0.0
@@ -95,14 +98,13 @@ struct DashboardView: View {
                         Text("Week status").fontWeight(.bold)
                         HStack{
                             HStack{// -- single day component
-                                
                                 Chart{
-                                    ForEach(habitdata){item in
+                                    ForEach(habitData){item in
                                             BarMark(
-                                                    x: .value("name", item.weekday),
-                                                    y: .value("amount", item.amount)
+                                                x: .value("name", item.weekday),
+                                                y: .value("amount", item.habitType.amount)
                                             )
-                                            .foregroundStyle(item.type == .good ? Color.green : Color.red)//change color of chart based on habit type
+                                            .foregroundStyle(item.habitType.type == .good ? Color.green : Color.red)//change color of chart based on habit type
                                     }
                                 }.frame(width: 350,height: 160)
                             }
@@ -136,12 +138,6 @@ struct DashboardView: View {
         .padding(.top, -60)
     }
 }
-
-
-struct CalculateProgressCircle{//MARK: -- calculating full week/month progress
-    
-}
-
 struct DashboardView_Previews: PreviewProvider{
     static var previews: some View{
         DashboardView()

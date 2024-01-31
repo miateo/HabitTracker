@@ -10,6 +10,7 @@
         - If 
  */
 import SwiftUI
+import SwiftData
 
 struct TodayView: View {
     @State private var isShowingNewHabitForm = false
@@ -25,9 +26,9 @@ struct TodayView: View {
                     .fontWeight(.bold)
                 // Most used habits
                 //displayMostUsed()
-                DisplayHabit(habit: habitdata[0])
-                DisplayHabit(habit: habitdata[1])
-                DisplayHabit(habit: habitdata[2])
+                DisplayHabit(habit: habitData[0])
+                DisplayHabit(habit: habitData[1])
+                DisplayHabit(habit: habitData[2])
                 
                 HStack{
                     //button to create new habit
@@ -43,7 +44,7 @@ struct TodayView: View {
                         .fontWeight(.bold)
                         .sheet(isPresented: $isShowingNewHabitForm, content: {
                             NavigationStack{
-                                NewHabit(isShowingNewHabitForm: $isShowingNewHabitForm)
+                                ModifyHabit(isShowingNewHabitForm: $isShowingNewHabitForm)
                                     .frame(width: UIScreen.main.bounds.width * 0.75)
                             }
                             .presentationBackground(Color("widgetSet"))

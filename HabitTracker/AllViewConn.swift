@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AllViewConn: View {
     @State private var tabSelection = 1
@@ -22,13 +23,5 @@ struct AllViewConn: View {
             CustomTabBar(tabSelection: $tabSelection)
         }
         .accentColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-        
-            
-    }
-}
-
-struct TabView_Previews: PreviewProvider {
-    static var previews: some View {
-        AllViewConn()
     }
 }

@@ -89,46 +89,76 @@ struct DisplayAllHabits: View{
                 .padding([.leading, .trailing], 8)
                 .font(.system(size: 36))
                 .onTapGesture {
+                    var loggedHabit: LoggedHabit?
                     isChecked.toggle()
-                    print("Habit Completed")
-                    logHabit(name: habit.name, image: habit.image, type: habit.type)
+                    if(isChecked){
+                        loggedHabit = logHabit(habit: habit)
+                    }else if loggedHabit != nil{
+                        deleteLogHabit(loggedHabit: loggedHabit!)
+                    }
                 }
         }
         
     }
-    func logHabit(name: String, image: String, type: Habitype){
-        let habitType = Habit(name: name, image: image, type: type)
+    func logHabit(habit: Habit) -> LoggedHabit{
+        let habitType = habit
         let loggedHabit = LoggedHabit(habitType: habitType, dateLogged: Date())
         context.insert(loggedHabit)
+        return loggedHabit
+    }
+    func deleteLogHabit(loggedHabit: LoggedHabit){
+        //search the current habit
+        //de-log the habit
+        
     }
     
 }
-
-func mostRecent(loggedHabits: [LoggedHabit], allHabits: [Habit]) -> [Habit] {
+func mostRecentExt(loggedHabits: [LoggedHabit], allHabits: [Habit]) -> [Habit] {
+    
     let allEntries: [LoggedHabit] = loggedHabits
     let allHabits: [Habit] = allHabits
-    var mostOccurred: [String : Int] = [:]
-    
+    var mostOccurred: [String : Int]  = [:]
+    if mostOccurred.isEmpty == false{
+        print("mostOccurred is not empty")
+        print(mostOccurred.description)
+    }else{ print("Mostoccure is empty")}
     for item in allEntries{
+        //print(item.habitId, "count = ", mostOccurred[item.habitId])
         if let count = mostOccurred[item.habitId]{
+            print("Existing count for ",item.habitId," count: ",count)
             mostOccurred[item.habitId] = count + 1
+            print("Updated count for ",item.habitId," count: ",count)
         }else{
             mostOccurred[item.habitId] = 1
+            print("Added ", item.habitId)
         }
+        //print(item.habitId, "count = ", mostOccurred[item.habitId])
+        print("\n")
+        
     }
-    
     let sortedMostOccurred = mostOccurred.sorted{ $0.value > $1.value}
     var topFiveHabits: [Habit] = []
     for (_, (uuid, _)) in sortedMostOccurred.prefix(5).enumerated() {
         // Cerca l'oggetto Habit corrispondente nel tuo array 'allHabits'
-        if let habit = allHabits.first(where: { $0.name == uuid }) {
+        if let habit = allHabits.first(where: { $0.id == uuid }) {
+            //print(index, "uuid= ", uuid, "count = ", count)
             // Aggiungi l'oggetto Habit a 'topFiveHabits'
             topFiveHabits.append(habit)
         }
     }
-    
-    //print("Finished topFive")
     return topFiveHabits
+}
+
+struct AllHabits: View{
+    @Binding var isShowingAllHabits: Bool
+    var allHabits: [Habit]
+    @Environment(\.modelContext) private var context
+    var body: some View{
+        ForEach(allHabits){item in
+            DisplayAllHabits(habit: item)
+        }
+        
+    }
 }
 
 struct ModifyHabit: View{

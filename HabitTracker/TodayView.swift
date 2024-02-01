@@ -18,9 +18,11 @@ struct TodayView: View {
     @Environment(\.modelContext) private var context
     
     @State private var isShowingNewHabitForm = false
+    @State private var isShowingAllHabits = false
     
     @Query private var habits: [Habit]
     @Query private var loggedHabits: [LoggedHabit]
+
     
     var body: some View {
         ZStack{
@@ -35,42 +37,32 @@ struct TodayView: View {
                 Spacer()
                 // Most used habits
                 //displayMostUsed()
-                if habits.isEmpty{
-                    Text("Add your first Habit")
+                
+                if loggedHabits.isEmpty {
+                    Spacer()
+                    Text("Log your first Habit")
+                        .foregroundStyle(Color("fontColor"))
+                        .font(.system(size:24))
+                        .fontWeight(.bold)
+                    Spacer()
                 }else{
-                    if loggedHabits.isEmpty{
-                        List{
-                            ForEach(habits){ item in
-                                DisplayAllHabits(habit: item)
-                            }.onDelete { itemSet in
-                                for item in itemSet{
-                                    context.delete(habits[item])
-                                }
+                    let topFiveHabits: [Habit] = mostRecentExt(loggedHabits: loggedHabits, allHabits: habits)
+                    List{
+                        ForEach(topFiveHabits){ item in
+                            DisplayAllHabits(habit: item)
+                        }.onDelete { itemSet in
+                            for item in itemSet{
+                                context.delete(habits[item])
                             }
-                            
-                        }.preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
-                            .scrollDisabled(true)
-                            .scrollContentBackground(.hidden)
-                            .listRowSpacing(10.0)
-                            .frame(height: UIScreen.main.bounds.height * 0.4)
-                    }else{
-                        let topFiveHabits: [Habit] = mostRecent(loggedHabits: loggedHabits, allHabits: habits)
-                        List{
-                            ForEach(topFiveHabits){ item in
-                                DisplayAllHabits(habit: item)
-                            }.onDelete { itemSet in
-                                for item in itemSet{
-                                    context.delete(habits[item])
-                                }
-                            }
-                            
-                        }.preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
-                            .scrollDisabled(true)
-                            .scrollContentBackground(.hidden)
-                            .listRowSpacing(10.0)
-                            .frame(height: UIScreen.main.bounds.height * 0.4)
-                    }
+                        }
+                        
+                    }.preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                        .scrollDisabled(true)
+                        .scrollContentBackground(.hidden)
+                        .listRowSpacing(10.0)
+                        .frame(height: UIScreen.main.bounds.height * 0.4)
                 }
+                
                 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/){
                     //button to create new habit
@@ -92,13 +84,22 @@ struct TodayView: View {
                         .presentationDragIndicator(.visible)
                         .presentationDetents([.fraction(0.40)])
                     })
-                    Button("See all habits") {}
-                        .frame(width: UIScreen.main.bounds.width * 0.465, height: 60)
-                        .background(Color("widgetSet"))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .foregroundStyle(Color("fontColor"))
-                        .font(.system(size: 18))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    Button("See all habits") {
+                        isShowingAllHabits.toggle()
+                    }
+                    .frame(width: UIScreen.main.bounds.width * 0.465, height: 60)
+                    .background(Color("widgetSet"))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundStyle(Color("fontColor"))
+                    .font(.system(size: 18))
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .sheet(isPresented: $isShowingAllHabits, content: {
+                        NavigationStack{
+                            AllHabits(isShowingAllHabits: $isShowingAllHabits, allHabits: habits)
+                        }.presentationBackground(Color("widgetSet"))
+                            .presentationDragIndicator(.visible)
+                            .presentationDetents([.medium])
+                    })
                     //button to view all habits
                 }
                 Spacer(minLength: 3)

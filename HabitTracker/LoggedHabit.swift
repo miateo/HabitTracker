@@ -11,7 +11,7 @@ import SwiftUI
 
 @Model
 class LoggedHabit: Identifiable{
-    var id: String
+    var id: String = UUID().uuidString
     var habitId: String
     var name: String
     var image: String
@@ -22,7 +22,7 @@ class LoggedHabit: Identifiable{
     
     init(habitType: Habit, dateLogged: Date) {
         //self.habitType = habitType
-        self.id = UUID().uuidString
+        //self.id = UUID().uuidString
         self.habitId = habitType.id
         self.name = habitType.name
         self.image = habitType.image

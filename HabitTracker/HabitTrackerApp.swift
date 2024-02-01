@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
+import Foundation
 
 @main
 struct HabitTrakerApp: App {

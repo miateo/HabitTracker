@@ -7,19 +7,41 @@
 
 import SwiftUI
 import SwiftData
-import UIKit
 import Foundation
 
 @main
 struct HabitTrakerApp: App {
+    let container: ModelContainer
     var body: some Scene {
         WindowGroup {
             AllViewConn()
-        }.modelContainer(for: [Habit.self, LoggedHabit.self])
+        }
+        .modelContainer(container)
+    }
+    
+    init(){
+        let schema = Schema([Habit.self])
+        let config = ModelConfiguration("HabitTracker", schema: schema)
+        do{
+            container = try ModelContainer(for: schema, configurations: config)
+        }catch{
+            fatalError("Could not configue the container")
+        }
+        /*
+        let config = ModelConfiguration(url: URL.documentsDirectory.appending(path: "HabitTracker.store"))
+        do {
+            container = try ModelContainer(for: Habit.self, configurations: config)
+        }catch{
+            fatalError("Could not configure the container")
+        }
+        print(URL.documentsDirectory.path())*/
+        print(URL.applicationSupportDirectory.path(percentEncoded: false))
     }
 }
-struct HabitTraker_Previews: PreviewProvider{
-    static var previews: some View{
-        AllViewConn()
-    }
+#Preview{
+    let preview = Preview(Habit.self)
+    preview.addExample(Habit.sampleHabits)
+    preview.addExample(LoggedHabit.sampleLoggedHabits)
+    return AllViewConn()
+        .modelContainer(preview.container)
 }

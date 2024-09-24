@@ -11,10 +11,10 @@ import SwiftData
 import SymbolPicker
 import UIKit
 
-//MARK: Get day data
+//MARK: Get name of the day data
 func getWeekDay(_ data: Date)->String{
     
-    let weekdays = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]
+    let weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
         
     // Assicurati che il valore sia compreso tra 1 e 7
     let index =  (calendar.component(.weekday, from: data) - 1) % 7
@@ -32,7 +32,6 @@ func calculateHabitStreak(habitdata: [Habit]){//MARK: Calculating week differenc
 }
 struct ProgressBarCircle: View{//MARK: Progress circle
     @Binding var progress: Float
-    
     var body: some View{
         ZStack{
             Circle()
@@ -67,74 +66,30 @@ func getDayProgress(){
     
 }
 
-struct DisplayAllHabits: View{
-    var habit: Habit
-    @Environment(\.modelContext) private var context
-    
-    @State private var isChecked = false
-    var body: some View{
-        HStack{
-            Text(habit.name)
-                    .foregroundStyle(Color("fontColor"))
-                    .fontWeight(.heavy)
-                    .font(.system(size: 24))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 18)
-            Image(systemName: habit.image)
-                .foregroundStyle(habit.type == Habitype.good ? Color.green : Color.red)
-                    .padding(.trailing, 8)
-                    .font(.system(size: 36))
-            
-            Image(systemName: isChecked ? "checkmark.circle.fill" : "checkmark.circle")
-                .padding([.leading, .trailing], 8)
-                .font(.system(size: 36))
-                .onTapGesture {
-                    var loggedHabit: LoggedHabit?
-                    isChecked.toggle()
-                    if(isChecked){
-                        loggedHabit = logHabit(habit: habit)
-                    }else if loggedHabit != nil{
-                        deleteLogHabit(loggedHabit: loggedHabit!)
-                    }
-                }
-        }
-        
-    }
-    func logHabit(habit: Habit) -> LoggedHabit{
-        let habitType = habit
-        let loggedHabit = LoggedHabit(habitType: habitType, dateLogged: Date())
-        context.insert(loggedHabit)
-        return loggedHabit
-    }
-    func deleteLogHabit(loggedHabit: LoggedHabit){
-        //search the current habit
-        //de-log the habit
-        
-    }
-    
-}
+//MARK: Return the 5 most used habit logged
+//TODO: need to make it so that checks only last 7 days
 func mostRecentExt(loggedHabits: [LoggedHabit], allHabits: [Habit]) -> [Habit] {
     
     let allEntries: [LoggedHabit] = loggedHabits
     let allHabits: [Habit] = allHabits
     var mostOccurred: [String : Int]  = [:]
     if mostOccurred.isEmpty == false{
-        print("mostOccurred is not empty")
-        print(mostOccurred.description)
-    }else{ print("Mostoccure is empty")}
+        //print("mostOccurred is not empty")
+        //print(mostOccurred.description)
+    }else{
+        //print("Mostoccure is empty")
+    }
     for item in allEntries{
         //print(item.habitId, "count = ", mostOccurred[item.habitId])
         if let count = mostOccurred[item.habitId]{
-            print("Existing count for ",item.habitId," count: ",count)
+            //print("Existing count for ",item.habitId," count: ",count)
             mostOccurred[item.habitId] = count + 1
-            print("Updated count for ",item.habitId," count: ",count)
+            //print("Updated count for ",item.habitId," count: ",count)
         }else{
             mostOccurred[item.habitId] = 1
-            print("Added ", item.habitId)
+            //print("Added ", item.habitId)
         }
         //print(item.habitId, "count = ", mostOccurred[item.habitId])
-        print("\n")
-        
     }
     let sortedMostOccurred = mostOccurred.sorted{ $0.value > $1.value}
     var topFiveHabits: [Habit] = []
@@ -149,92 +104,24 @@ func mostRecentExt(loggedHabits: [LoggedHabit], allHabits: [Habit]) -> [Habit] {
     return topFiveHabits
 }
 
-struct AllHabits: View{
-    @Binding var isShowingAllHabits: Bool
-    var allHabits: [Habit]
-    @Environment(\.modelContext) private var context
-    var body: some View{
-        ForEach(allHabits){item in
-            DisplayAllHabits(habit: item)
-        }
-        
-    }
-}
-
-struct ModifyHabit: View{
-    
-    @Environment(\.modelContext) private var context
-    
-    @Binding var isShowingNewHabitForm: Bool
-    @State var name = ""
-    @State var icon = "circle.fill"
-    @State var isPresented = false
-    @State var type = 1
-    
-    var body: some View{
-        VStack(alignment: .leading, spacing: 10.0){
-            TextField("Insert the name of the habit", text: $name)
-                .padding()
-                .background(Color("widgetSet").cornerRadius(15))
-                
-            HStack{
-                Picker("", selection: $type){
-                    Text("Good")
-                        .tag(1)
-                    Text("Bad")
-                        .tag(0)
-                }.frame(width: UIScreen.main.bounds.width * 0.75)
-                    .pickerStyle(.palette).foregroundStyle(Color.gray)
-            }
-            HStack(alignment: .top){
-                Button("Select a icon"){
-                    isPresented.toggle()
-                }.foregroundColor(.black)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(Color("secondaryWidget"))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                Spacer()
-                
-                Image(systemName: icon)
-                    .sheet(isPresented: $isPresented) {
-                        SymbolPicker(symbol: $icon)
-                            .preferredColorScheme(.dark)
-                    }
-                    .font(.system(size: 25))
-                    .foregroundStyle(Color.white)
-                    .padding(.vertical, 8)
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.75)
-        }
-        .toolbar{
-            ToolbarItem(placement: .confirmationAction){
-                Button("Done"){
-                    //print("Done Clicked")
-                    if(name != ""){
-                        self.isShowingNewHabitForm.toggle()
-                        //print("toggled")
-                        saveHabit(name: name, image: icon, type: type == 1 ? Habitype.good : Habitype.bad)
-                        //print("savehabit called")
-                    }
-                }
-            }
-            ToolbarItem(placement: .cancellationAction){
-                Button("Cancel"){
-                    self.isShowingNewHabitForm.toggle()
-                }
-            }
+func todayHabits(habits: [Habit]) -> [Habit]{
+    var dayHabit: [Habit] = []
+    let weekDay: [String : Int] = [
+        "monday" : 1,
+        "tuesday" : 2,
+        "wednesday" : 3,
+        "thursday" : 4,
+        "friday" : 5,
+        "saturday" : 6,
+        "sunday" : 7
+    ]
+    for habit in habits{
+//        print("weekday func result = ", getWeekDay(Date()))
+        if habit.specificDay.contains(weekDay[getWeekDay(Date())]!) || habit.specificDay.contains([0]){
+            dayHabit.append(habit)
         }
     }
-    func saveHabit(name: String, image: String, type: Habitype){
-        //print("Entered saveHabit")
-        let habit : Habit
-        //print("habit created")
-        habit = Habit(name: name, image: image, type: type)
-        //print("Habit created uuid: ", habit.id)
-        context.insert(habit)
-        //print("Habit saved")
-    }
+    return dayHabit
 }
 
 func checkMostUsedLast(days :Int){
@@ -244,6 +131,7 @@ func checkMostUsedLast(days :Int){
      2 - bubblesort by log count of every habit
      3 - Return an ordered array list of the habits in the last {days} days
      */
+    
 }
 func displayMostUsed(days :Int, amount :Int){
     /**
@@ -259,9 +147,9 @@ let habitData: [LoggedHabit] = [ //TODO: need to fix the way the weekday get ext
 
     
     //Day 1
-    LoggedHabit(habitType: Habit(name: "Morning Run",image: "figure.run",type: .good), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!),
-    LoggedHabit(habitType: Habit(name: "No Junk Food",image: "takeoutbag.and.cup.and.straw.fill",type: .bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),
-    LoggedHabit(habitType: Habit(name: "3h+ phone",image: "iphone",type: .bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),
+//    LoggedHabit(habitType: Habit(name: "Morning Run",image: "figure.run",type: .good), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 15))!),
+//    LoggedHabit(habitType: Habit(name: "No Junk Food",image: "takeoutbag.and.cup.and.straw.fill",type: .bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),
+//    LoggedHabit(habitType: Habit(name: "3h+ phone",image: "iphone",type: .bad), dateLogged: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 12))!),
     /*
     //Day 2
     Habit(name: "Test", day: calendar.date(from: DateComponents(calendar: calendar, year: 2023, month: 05, day: 13))!, weekday: "Friday",type: .bad),

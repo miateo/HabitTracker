@@ -19,18 +19,17 @@ class LoggedHabit: Identifiable{
     var amount = 1
     var dateLogged: Date   // day habit is logged
     var weekday: String // automatically fetched by the day var
+    var habit: Habit?
+    var isLogged: Bool = false
     
     init(habitType: Habit, dateLogged: Date) {
-        //self.habitType = habitType
-        //self.id = UUID().uuidString
         self.habitId = habitType.id
         self.name = habitType.name
         self.image = habitType.image
         self.type = habitType.type
-        
         self.dateLogged = dateLogged
         self.weekday = getWeekDay(dateLogged)
-        
-        //print("name = ", self.name)
+        self.isLogged = true
+//        print(self.id, "Logged: ", self.isLogged)
     }
 }

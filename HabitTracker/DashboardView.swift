@@ -5,11 +5,11 @@
 //  Created by Alessandro Miatello on 26/05/23.
 //
 /* This view is has as purpose to show the summary of the progress with charts for:
-    - Day
-    - Week
-    - Month
-    it doesn't record any data anb has functions only to calculate the charts
-*/
+ - Day
+ - Week
+ - Month
+ it doesn't record any data anb has functions only to calculate the charts
+ */
 import SwiftUI
 import Charts
 import SwiftData
@@ -44,44 +44,33 @@ struct DashboardView: View {
                     }
                     Spacer()
                     ZStack{//MARK: -- Habit streak stat
+                        // TODO: fare in modo che le stat siano dinamiche
                         RoundedRectangle(cornerRadius: 18)
                             .fill(Color("widgetSet"))
-                            .frame(width: 175,height: 170)
+                            .frame(width: 195,height: 170)
                         VStack{
                             HStack{// -- Good habit side
-                                Spacer()
-                                Image(systemName: "arrow.up") // -- dynamic
-                                    .imageScale(.large)
-                                VStack{
-                                    Text("Up") // -- dynamic
-                                        .font(.system(size: 15))
-                                    
-                                    Text("34%") // -- dynamic
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.green)
+                                VStack(alignment: .leading){
+                                    Text("Good Habits")
+                                        .font(.system(size: 20))
+                                    HStack{
+                                        Image(systemName: "arrow.up.circle.fill") // -- dynamic
+                                            .imageScale(.large)
+                                        Text("20% from last week").font(.system(size: 14))// -- dynamic
+                                    }
                                 }
-                                VStack{
-                                    Text("Good habit")
-                                    Text("streak 🔥")
-                                }
-                                Spacer()
                             }
                             Divider()
                                 .frame(width: 140)
                             HStack{// -- Good habit side
                                 Spacer()
-                                Image(systemName: "arrow.down") // -- dynamic
-                                    .imageScale(.large)
-                                VStack{
-                                    Text("Down") // -- dynamic
-                                        .font(.system(size: 15))
-                                    Text("12%") // -- dynamic
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.red)
-                                }
-                                VStack{
-                                    Text("Bad habit")
-                                    Text("streak 💪")
+                                VStack(alignment: .leading){
+                                    Text("Bad Habits").font(.system(size: 20))
+                                    HStack{
+                                        Image(systemName: "arrow.down.circle.fill") // -- dynamic
+                                            .imageScale(.large)
+                                        Text("12% from last week").font(.system(size: 14)) // -- dynamic
+                                    }
                                 }
                                 Spacer()
                             }
@@ -99,17 +88,18 @@ struct DashboardView: View {
                     VStack{
                         Text("Week status").fontWeight(.bold)
                         
-                         HStack{
+                        HStack{
                             HStack{// -- single day component
                                 Chart{
                                     ForEach(logHabits){item in
-                                            BarMark(
-                                                x: .value("name", item.weekday),
-                                                y: .value("amount", item.amount)
-                                            )
-                                            .foregroundStyle(item.type == .good ? Color.green : Color.red)//change color of chart based on habit type
-                                    }
-                                }.frame(width: 350,height: 160)
+                                        BarMark(
+                                            x: .value("name", item.weekday),
+                                            y: .value("amount", item.amount)
+                                        )
+                                        .foregroundStyle(item.type == Habitype.good ? Color.green : Color.red)//change color of chart based on habit type
+                                    }.clipShape(RoundedRectangle(cornerRadius: 20))
+                                }
+                                .frame(width: 350,height: 160)
                             }
                         }
                     }
@@ -141,8 +131,10 @@ struct DashboardView: View {
         .padding(.top, -60)
     }
 }
-struct DashboardView_Previews: PreviewProvider{
-    static var previews: some View{
-        DashboardView()
-    }
+#Preview{
+    let preview = Preview(Habit.self)
+    preview.addExample(Habit.sampleHabits)
+    preview.addExample(LoggedHabit.sampleLoggedHabits)
+    return DashboardView()
+        .modelContainer(preview.container)
 }

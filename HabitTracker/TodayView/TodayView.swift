@@ -25,15 +25,26 @@ struct TodayView: View {
                 Color("BGColor").ignoresSafeArea()
                 VStack(alignment: .center){
                     Spacer()
-                    // Most used habits
-                    //displayMostUsed()
-                    let todayHabit: [Habit] = todayHabits(habits: habits)
-                    HabitListView(list: todayHabit)
+                    // Most used habits or specific day habits?
+                    let todayHabit: [Habit] = todayHabits(habits: habits) //  Add to the array habits set for that day
+                    List {
+                        ForEach(todayHabit){habit in
+                            DisplayHabits(passedHabit: habit)
+                        }
+//                        Text("Ristampo gli habits")
+                    }
+                    .preferredColorScheme(.dark)
+                    .scrollContentBackground(.hidden)
+                    .listRowSpacing(10.0)
+//                    HabitListView(list: todayHabit)
+//                        .background(.white)
+//                    Text("listview stampato")
+
                     Spacer()
                     TodayViewButtons()
-                    Spacer()
                 }
                 .navigationTitle("Log your Habits!")
+                .padding(.bottom, 70) // makes button in this view not go under tabbar
             }
         }
     }

@@ -24,8 +24,12 @@ struct AllHabits: View{
         _allHabits = Query(filter: predicate)
     }
     var body: some View{
-        
-        HabitListView(list: allHabits.filter {!todayHabits(habits: allHabits).contains($0)} )
-                .listRowSpacing(10.0)
+//        let _ = print("changes in the allHabit array")
+        HabitListView(list: allHabits.filter {
+            !todayHabits(habits: allHabits).contains($0)
+            &&
+            !checkLogged(habits: allHabits).contains($0)
+            } )
+            .listRowSpacing(10.0)
     }
 }

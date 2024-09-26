@@ -21,17 +21,19 @@ class Habit: Identifiable{
     var image: String
     var amount = 1 //TODO: figure out best way to register the "amount" for every habit
     var type: Habitype // -> enum(good,bad)
-    var loggedHabits: [LoggedHabit]?
+//    var loggedHabits: [LoggedHabit] = []
     var specificDay: [Int] = []
     
     @Relationship(deleteRule: .cascade)
-//    init(name: String, image: String, type: Habitype) {
-//        //print("Entered init")
-//        //self.id = UUID().uuidString
-//        self.name = name
-//        self.image = image
-//        self.type = type
-//    }
+    var loggedHabit: [LoggedHabit] = []
+    
+    init(name: String, image: String, type: Habitype) {
+        //print("Entered init")
+        //self.id = UUID().uuidString
+        self.name = name
+        self.image = image
+        self.type = type
+    }
     init(name: String, image: String, type: Habitype, specificDay: [Int]) {
         //print("Entered init")
         //self.id = UUID().uuidString

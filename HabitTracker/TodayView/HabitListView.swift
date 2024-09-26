@@ -7,14 +7,15 @@
 import Foundation
 import SwiftUI
 import SwiftData
-
+// This class is responsable to show all the habits that are present in the memory
+// is the extendable panel at the bottom
 struct HabitListView: View {
-    var list: [Habit]
+    @State var list: [Habit]
     @Environment(\.modelContext) private var context
     @Query private var habits: [Habit]
+//    @Query private var allLoggedHabits: [LoggedHabit]
     init(list: [Habit]){
-        list = list
-//        list = Habit.sampleHabits
+        self.list = list
     }
     var body: some View {
         //        Spacer()
@@ -25,16 +26,49 @@ struct HabitListView: View {
                 .fontWeight(.bold)
                 .frame(alignment: .center)
         }else{
-            
             List{
+                /*
                 ForEach($list){item in
                     let habit = Habit(name: item.name.wrappedValue, image: item.image.wrappedValue, type: item.type.wrappedValue, specificDay: item.specificDay.wrappedValue)
                     let loggedhabit = LoggedHabit(habitType: habit, dateLogged: Date())
                     DisplayLoggedHabits(passedLoggedHabit: loggedhabit)
-                }.onDelete { indeces in
+//                    DisplayHabits(passedHabit: habit) TODO: Need to add checkmark & log possibilities
+                    let _ = print("ricarico gli habit")
+                }
+                .onDelete { indeces in
                     for index in indeces{
+                        
+                        // Debugging
+                            print("Habits list before deletion:")
+                            
+                            // Print the entire list of habits before deletion
+                            for habit in habits {
+                                print("Habit name: \(habit.name) index: \(index)")
+                            }
+                        // ---
+                        
+                        print("Deleting \(habits[index].name) index: \(index)")
                         context.delete(habits[index])
+                        
+                        try? context.save()
+                        
+                            // Debugging
+                                print("Habits list after deletion:")
+                                
+                                // Print the entire list of habits before deletion
+                                for habit in habits {
+                                    print("Habit name: \(habit.name)")
+                                }
+                            // ---
+                        
                     }
+                }*/
+                ForEach(Array($list.enumerated()), id: \.element.id){(index, item) in
+//                    let _ = print("habit: \(item.name.wrappedValue) index: \(index)")
+                    let habit = Habit(name: item.name.wrappedValue, image: item.image.wrappedValue, type: item.type.wrappedValue, specificDay: item.specificDay.wrappedValue)
+//                    let loggedhabit = LoggedHabit(habitType: habit, dateLogged: Date())
+//                    DisplayLoggedHabits(passedLoggedHabit: loggedhabit)
+                    DisplayHabits(passedHabit: habit)
                 }
                 
             }
@@ -42,10 +76,9 @@ struct HabitListView: View {
             .scrollContentBackground(.hidden)
             .listRowSpacing(10.0)
         }
-        //        Spacer()
     }
 }
 
-//#Preview {
-//    HabitListView(list: Habit.sampleHabits)
-//}
+#Preview {
+    HabitListView(list: Habit.sampleHabits)
+}

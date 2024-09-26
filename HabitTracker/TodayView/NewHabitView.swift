@@ -75,7 +75,7 @@ struct NewHabitView: View{
                     ToolbarItem(placement: .confirmationAction){
                         Button(action:{
                             //print("Done Clicked")
-                            if(name != ""){
+                            if(name != "" && weekDays != []){
                                 // self.isShowingNewHabitForm.toggle()
                                 //print("toggled")
                                 saveHabit(name: name, image: icon, type: type == 1 ? Habitype.good : Habitype.bad)
@@ -101,7 +101,7 @@ struct NewHabitView: View{
         .presentationDetents([.fraction(0.40)])
     }
     func saveHabit(name: String, image: String, type: Habitype){
-        print("weekdays: ", weekDays.description)
+//        print("weekdays: ", weekDays.description)
         //print("Entered saveHabit")
         let habit : Habit
         //print("habit created")

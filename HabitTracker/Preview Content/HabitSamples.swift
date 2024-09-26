@@ -12,7 +12,9 @@ extension Habit{
         [
             Habit(name: "Run", image: "figure.run", type: Habitype.good, specificDay: [0]),
             Habit(name: "Junk Food", image: "takeoutbag.and.cup.and.straw.fill", type: Habitype.bad, specificDay: [1]),
-            Habit(name: "Study", image: "graduationcap.fill", type: Habitype.good, specificDay: [2])
+            Habit(name: "Study", image: "graduationcap.fill", type: Habitype.good, specificDay: [2]),
+            Habit(name: "tmp", image: "circle.fill", type: Habitype.good, specificDay: [3])
+
         ]
     }
 }

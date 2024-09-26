@@ -28,9 +28,10 @@ struct DashboardView: View {
                 Text("Dashboard").fontWeight(.bold)
                     .font(.system(size: 20))
                 Spacer()
+                //MARK: -- Compaund stat summary (circle)
                 HStack{
                     Spacer()
-                    ZStack{//MARK: -- Compaund stat summary (circle)
+                    ZStack{
                         RoundedRectangle(cornerRadius: 18)
                             .fill(Color("widgetSet"))
                             .frame(width: 175,height: 170)
@@ -81,7 +82,8 @@ struct DashboardView: View {
                     Spacer()
                 }
                 Spacer()
-                ZStack{//MARK: -- Week status chart
+                //MARK: -- Week status chart
+                ZStack{
                     RoundedRectangle(cornerRadius: 18)
                         .fill(Color("widgetSet"))
                         .frame(width: 375, height: 230)
@@ -89,14 +91,16 @@ struct DashboardView: View {
                         Text("Week status").fontWeight(.bold)
                         
                         HStack{
-                            HStack{// -- single day component
+                            //Single day component
+                            HStack{
                                 Chart{
                                     ForEach(logHabits){item in
                                         BarMark(
                                             x: .value("name", item.weekday),
                                             y: .value("amount", item.amount)
                                         )
-                                        .foregroundStyle(item.type == Habitype.good ? Color.green : Color.red)//change color of chart based on habit type
+                                        //change color of chart based on habit type
+                                        .foregroundStyle(item.type == Habitype.good ? Color.green : Color.red)
                                     }.clipShape(RoundedRectangle(cornerRadius: 20))
                                 }
                                 .frame(width: 350,height: 160)
@@ -106,7 +110,8 @@ struct DashboardView: View {
                     
                 }
                 Spacer()
-                ZStack{//MARK: -- Quote
+                //MARK: -- Quote
+                ZStack{
                     RoundedRectangle(cornerRadius: 18)
                         .fill(Color("widgetSet"))
                         .frame(width: 375, height: 180)
@@ -119,7 +124,8 @@ struct DashboardView: View {
                     .italic()
                 }
                 Spacer()
-                ZStack{//MARK: -- Month Graph
+                //MARK: -- Month Graph
+                ZStack{
                     
                 }
             }

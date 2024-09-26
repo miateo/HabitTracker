@@ -20,21 +20,14 @@ struct HabitTrakerApp: App {
     }
     
     init(){
-        let schema = Schema([Habit.self])
+        let schema = Schema([Habit.self, LoggedHabit.self])
         let config = ModelConfiguration("HabitTracker", schema: schema)
-        do{
+        do {
             container = try ModelContainer(for: schema, configurations: config)
-        }catch{
+        } catch {
             fatalError("Could not configue the container")
         }
-        /*
-        let config = ModelConfiguration(url: URL.documentsDirectory.appending(path: "HabitTracker.store"))
-        do {
-            container = try ModelContainer(for: Habit.self, configurations: config)
-        }catch{
-            fatalError("Could not configure the container")
-        }
-        print(URL.documentsDirectory.path())*/
+        
         print(URL.applicationSupportDirectory.path(percentEncoded: false))
     }
 }

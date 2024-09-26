@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @Binding var tabSelection: Int
-    
+    //TODO: find a way to extract the day number from the calendar (like whats done on weekday) and make a String var that is placed instead of the "6" in the tabBarItems
     let tabBarItems: [(image:String, title:String)] = [
     ("house", "Home"),
     ("6.square", "Today"),

@@ -66,42 +66,34 @@ func getDayProgress(){
     
 }
 
-//MARK: Return the 5 most used habit logged
-//TODO: need to make it so that checks only last 7 days
-func mostRecentExt(loggedHabits: [LoggedHabit], allHabits: [Habit]) -> [Habit] {
+//This make every date have the same hour,min,sec so that only the actual date gets compared
+func getCurrentDateWithoutTime() -> Date {
+    let currentDate = Date()
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.year, .month, .day], from: currentDate)
+    return calendar.date(from: components) ?? currentDate // Fallback to currentDate if there’s an issue
+}
+
+//DESC: This function check if an habit has been logged on that day
+func checkLog(habit: Habit) -> Bool{
+    for logged in habit.loggedHabit {
+        if(logged.dateLogged == getCurrentDateWithoutTime()){
+            return true
+        }
+    }
+    return false
+}
+
+func checkLogged(habits: [Habit]) -> [Habit]{
+    var loggedHabits: [Habit] = []
     
-    let allEntries: [LoggedHabit] = loggedHabits
-    let allHabits: [Habit] = allHabits
-    var mostOccurred: [String : Int]  = [:]
-    if mostOccurred.isEmpty == false{
-        //print("mostOccurred is not empty")
-        //print(mostOccurred.description)
-    }else{
-        //print("Mostoccure is empty")
-    }
-    for item in allEntries{
-        //print(item.habitId, "count = ", mostOccurred[item.habitId])
-        if let count = mostOccurred[item.habitId]{
-            //print("Existing count for ",item.habitId," count: ",count)
-            mostOccurred[item.habitId] = count + 1
-            //print("Updated count for ",item.habitId," count: ",count)
-        }else{
-            mostOccurred[item.habitId] = 1
-            //print("Added ", item.habitId)
-        }
-        //print(item.habitId, "count = ", mostOccurred[item.habitId])
-    }
-    let sortedMostOccurred = mostOccurred.sorted{ $0.value > $1.value}
-    var topFiveHabits: [Habit] = []
-    for (_, (uuid, _)) in sortedMostOccurred.prefix(5).enumerated() {
-        // Cerca l'oggetto Habit corrispondente nel tuo array 'allHabits'
-        if let habit = allHabits.first(where: { $0.id == uuid }) {
-            //print(index, "uuid= ", uuid, "count = ", count)
-            // Aggiungi l'oggetto Habit a 'topFiveHabits'
-            topFiveHabits.append(habit)
+    for habit in habits {
+        if (checkLog(habit: habit)){
+            // case true
+            loggedHabits.append(habit)
         }
     }
-    return topFiveHabits
+    return loggedHabits
 }
 
 func todayHabits(habits: [Habit]) -> [Habit]{
@@ -118,10 +110,23 @@ func todayHabits(habits: [Habit]) -> [Habit]{
     for habit in habits{
 //        print("weekday func result = ", getWeekDay(Date()))
         if habit.specificDay.contains(weekDay[getWeekDay(Date())]!) || habit.specificDay.contains([0]){
+//            print("habit: \(habit.name) weekday: \(habit.specificDay)")
             dayHabit.append(habit)
         }
     }
     return dayHabit
+}
+
+func checkRealIndex(habits: [Habit], delHabit: LoggedHabit) -> Int {
+    var count: Int = 0
+    for habit in habits {
+        if habit.id != delHabit.habit.id{
+            break
+        }else{
+            count += 1
+        }
+    }
+    return count
 }
 
 func checkMostUsedLast(days :Int){

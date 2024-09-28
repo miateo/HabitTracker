@@ -77,24 +77,41 @@ func getCurrentDateWithoutTime() -> Date {
 //DESC: This function check if an habit has been logged on that day
 func checkLog(habit: Habit) -> Bool{
     for logged in habit.loggedHabit {
+//        print("Check if \(logged.name) è stato loggato il ", getCurrentDateWithoutTime())
         if(logged.dateLogged == getCurrentDateWithoutTime()){
+//            print("\(logged.name) loggato")
             return true
         }
     }
+//    print("\(habit.name) non loggato")
     return false
 }
 
+//Ritorna un array con tutti gli habit che sono stati loggati nel giorno corrente
 func checkLogged(habits: [Habit]) -> [Habit]{
     var loggedHabits: [Habit] = []
     
     for habit in habits {
-        if (checkLog(habit: habit)){
+        if checkLog(habit: habit){
             // case true
             loggedHabits.append(habit)
         }
     }
     return loggedHabits
 }
+
+func checkLogged(habits: [Habit], habit: Habit) -> Bool{
+    for habit in habits {
+        if checkLog(habit: habit) {
+            // case true
+            print("Habit logged found: \(habit.name)")
+            return true
+        }
+    }
+    return false
+}
+
+
 
 func todayHabits(habits: [Habit]) -> [Habit]{
     var dayHabit: [Habit] = []
@@ -110,10 +127,11 @@ func todayHabits(habits: [Habit]) -> [Habit]{
     for habit in habits{
 //        print("weekday func result = ", getWeekDay(Date()))
         if habit.specificDay.contains(weekDay[getWeekDay(Date())]!) || habit.specificDay.contains([0]){
-//            print("habit: \(habit.name) weekday: \(habit.specificDay)")
+//            print("todayHabit: \(habit.name)")
             dayHabit.append(habit)
         }
     }
+    
     return dayHabit
 }
 

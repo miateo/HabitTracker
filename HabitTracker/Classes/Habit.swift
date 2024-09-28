@@ -41,7 +41,7 @@ class Habit: Identifiable{
         self.image = image
         self.type = type 
         self.specificDay = specificDay
-        print(self.specificDay.description)
+//        print(self.specificDay.description)
         //print(self.id, self.name, self.image, self.type)
     }
 }

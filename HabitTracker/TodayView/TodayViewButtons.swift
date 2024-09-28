@@ -37,7 +37,7 @@ struct TodayViewButtons: View {
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .foregroundStyle(Color("fontColor"))
             .font(.system(size: 18))
-            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            .fontWeight(.bold)
             .sheet(isPresented: $isShowingAllHabits, content: {
                 NavigationStack{
                     AllHabits(filterString: filter)

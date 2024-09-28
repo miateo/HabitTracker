@@ -17,7 +17,7 @@ import UIKit
 struct TodayView: View {
     @Environment(\.modelContext) private var context
     @Query private var habits: [Habit]
-    @Query private var loggedHabits: [LoggedHabit]
+//    @Query private var loggedHabits: [LoggedHabit]
     
     var body: some View {
         NavigationStack{
@@ -26,25 +26,23 @@ struct TodayView: View {
                 VStack(alignment: .center){
                     Spacer()
                     // Most used habits or specific day habits?
-                    let todayHabit: [Habit] = todayHabits(habits: habits) //  Add to the array habits set for that day
+                    let todayHabit = habits.filter { habit in
+                        return todayHabits(habits: habits).contains(habit)
+                    }
                     List {
                         ForEach(todayHabit){habit in
                             DisplayHabits(passedHabit: habit)
                         }
-//                        Text("Ristampo gli habits")
                     }
                     .preferredColorScheme(.dark)
                     .scrollContentBackground(.hidden)
                     .listRowSpacing(10.0)
-//                    HabitListView(list: todayHabit)
-//                        .background(.white)
-//                    Text("listview stampato")
 
                     Spacer()
                     TodayViewButtons()
                 }
                 .navigationTitle("Log your Habits!")
-                .padding(.bottom, 70) // makes button in this view not go under tabbar
+                .padding(.bottom, 70) //desc: makes button in this view not go under tabbar
             }
         }
     }

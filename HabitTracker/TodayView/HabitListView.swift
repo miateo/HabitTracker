@@ -66,9 +66,12 @@ struct HabitListView: View {
                 ForEach(Array($list.enumerated()), id: \.element.id){(index, item) in
 //                    let _ = print("habit: \(item.name.wrappedValue) index: \(index)")
                     let habit = Habit(name: item.name.wrappedValue, image: item.image.wrappedValue, type: item.type.wrappedValue, specificDay: item.specificDay.wrappedValue)
-//                    let loggedhabit = LoggedHabit(habitType: habit, dateLogged: Date())
-//                    DisplayLoggedHabits(passedLoggedHabit: loggedhabit)
                     DisplayHabits(passedHabit: habit)
+                    
+                }.onDelete{indeces in
+                    for index in indeces{
+                        context.delete(habits[index])
+                    }
                 }
                 
             }

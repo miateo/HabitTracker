@@ -24,12 +24,38 @@ struct AllHabits: View{
         _allHabits = Query(filter: predicate)
     }
     var body: some View{
-//        let _ = print("changes in the allHabit array")
-        HabitListView(list: allHabits.filter {
-            !todayHabits(habits: allHabits).contains($0)
-            &&
-            !checkLogged(habits: allHabits).contains($0)
-            } )
-            .listRowSpacing(10.0)
+//        VStack{}.onAppear{
+//            DispatchQueue.main.async {
+//                print("Start loop")
+//                for habit in allHabits {
+//                    print("Inside loop: \(habit.name)")
+//                }
+//                print("End loop")
+//            }
+//        }
+        let _ = print("---starting filter")
+        let filteredHabits = allHabits.filter { habit in
+            return (!todayHabits(habits: allHabits).contains(habit) &&
+                    !checkLogged(habits: allHabits).contains(habit))
+        }
+//        let checkHabits = checkLogged(habits: allHabits)
+        
+        let __ = print("---finished filtering")
+        VStack{}.onAppear{
+            DispatchQueue.main.async {
+                print("-Start loop for filtered")
+                for habit in filteredHabits {
+                    print("Inside loop: \(habit.name)")
+                }
+                print("-End loop")
+            }
+        }
+        
+        HabitListView(list: filteredHabits)
     }
+    
+}
+
+#Preview{
+    AllHabits(filterString: "")
 }

@@ -57,9 +57,8 @@ struct DisplayLoggedHabits: View{
 }
 struct DisplayHabits: View{
     var habit: Habit
-    @Query private var allLoggedHabits: [LoggedHabit]
+    @Query private var allHabits: [Habit]
     @Environment(\.modelContext) private var context
-//    @State private var isChecked = false
     init(passedHabit: Habit){
         habit = passedHabit
     }
@@ -77,23 +76,35 @@ struct DisplayHabits: View{
                 .font(.system(size: 30))
             
 //        TODO: Il checkmark deve cambiare se l'habit è stato loggato e deve essere displayato sulla vita TodayView
-            Image(systemName: "checkmark.circle")
+//            let _ = print("checkLog for \(habit.name) return = \(checkLogged(habits: allHabits, habit: habit))")
+            Image(systemName: checkLogged(habits: allHabits, habit: habit) ? "checkmark.circle.fill" : "checkmark.circle")
                 .padding([.leading, .trailing], 8)
                 .font(.system(size: 28))
                 .onTapGesture {
-                    //TODO: Esegue il log dell'habit e lo rimuove da HabitListView in caso quello sia il contenitore
-                    logHabit(habit: habit)
+//                    let _ = print("clicked")
+                    if(checkLog(habit: habit)){
+                        print("Deleteing Log for \(habit.name)")
+                        deLogHabit(habit: habit)
+                    }else{
+                        print("Logging \(habit.name)")
+                        logHabit(habit: habit)
+                    }
                 }
         }
     }
-    func logHabit(habit: Habit){
-        let habitType = habit
-        let loggedHabit = LoggedHabit(habitType: habitType,dateLogged: getCurrentDateWithoutTime())
-        let _ = print("date-loggedHabit = \(loggedHabit.dateLogged)")
-        context.insert(loggedHabit)
+    func deLogHabit(habit: Habit){
+        // scorre l'array habit.loggedhabits e trova l'istanza corrispondente al giorno attuale e la rimuove
+        //TODO: Fixare crash causato dalla rimozione e verificare persistenza dati
+        habit.loggedHabit.removeAll{ logged in
+            logged.dateLogged == getCurrentDateWithoutTime()
+        }
     }
-//    func checkIfLogged(habit: Habit){
-//        
-//    }
+    func logHabit(habit: Habit){
+        let newLoggedHabit = LoggedHabit(habitType: habit,dateLogged: getCurrentDateWithoutTime())
+//        let _ = print("date-loggedHabit = \(loggedHabit.dateLogged)")
+//        context.insert(loggedHabit)
+        habit.loggedHabit.append(newLoggedHabit)
+        
+    }
 }
 

@@ -3,11 +3,11 @@
 - [x] Find out how to save the data on the device
 - [x] Make relationship between Habit & LoggedHabit
 - [x] _Make so that when you delete a Habit Object it deletes all the occurrences of that habit in the loggedHabit database_ <-- Solved by Relationship rule cascade
-- [ ] Make it display all the topFive loggedHabits and the Habits without the one present in topFive if loggedHabit.count < 5
-- [/] Add log capabilities to the DisplayHabits struct
+- [/] Add log & deLog capabilities to the DisplayHabits struct
 - [ ] Make habits able to be logged on the TodayView and make sure that the logic behind it is correct
-- [ ] Make HabitListView display _Habits_ only if they aren't logged on that day
+- [x] Make HabitListView display _Habits_ only if they aren't logged on that day
       -> basically if they are in the loggedHabits array or todayHabits array (I think <- need to check)
+- [ ] Add screen warning when trying to delete habits
 - [ ] Create Day, Weeks, years struct or a way to group them into it to save them
 - [ ] Make the TabBar icon show the current day icon
 - [ ] Fix the warnings that appear when you try to type the name of the new Habit (In the console of XCode)
@@ -18,7 +18,7 @@
 - [ ] Make quotes space works
 - [ ] Make a way to display the relevant information on the appropriate charts
 
-### NEW FEATURES IDEAS
+## NEW FEATURES IDEAS
 
 - [ ] Add Day recap func
 - [ ] Add Edit Habit capability
@@ -43,3 +43,7 @@
 
 - [x] habits get displayed the number of times it's logged in HabitListView -> probably it's displaying the loggedHabits array inside it?
       --> Need to change the array that gets fed to HabitListView -> it's in AllHabits: _add a filter_
+
+- [ ] When deleting from HabitListView program crashes
+- [ ] Chenges to log status of habit not updated in HabitListView
+- [ ] When logging habits on HabitListView the log doesn't persist and when delogging it the program crashes
